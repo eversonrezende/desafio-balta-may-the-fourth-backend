@@ -17,9 +17,11 @@ public class Handler : IRequestHandler<Request, Response>
     {
         #region Get All Planets
         List<Planet>? planets;
+        int totalItems = 0;
         try
         {
-            planets = await _planetRepository.GetAllAsync();
+            totalItems = await _planetRepository.CountTotalItemsAsync();
+            planets = await _planetRepository.GetAllAsync(request.page, request.pageSize);
             if (planets!.Count <= 0)
                 return new Response("Nenhum planeta encontrado.", 404);
         }
@@ -32,7 +34,7 @@ public class Handler : IRequestHandler<Request, Response>
         #endregion
 
         #region Response
-        return new Response("Uma lista de planetas foi encontrado.", new ResponseData(new(planetSummaryList)));
+        return new Response("Uma lista de planetas foi encontrado.", new ResponseData(new(planetSummaryList)), request.page, request.pageSize, totalItems);
         #endregion
     }
 }

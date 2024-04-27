@@ -11,14 +11,20 @@ public class Response : SharedContext.UseCases.Response
         Status = status;
     }
 
-    public Response(string message, ResponseData data)
+    public Response(string message, ResponseData data, int page, int pageSize, int totalItems)
     {
         Message = message;
         Status = 200;
         Data = data;
+        Page = page;
+        PageSize = pageSize;
+        TotalItems = totalItems;
     }
 
     public ResponseData? Data { get; set; }
+    public int Page { get; set; }
+    public int PageSize { get; set; }
+    public int TotalItems{ get; set; }
 }
 
 public record ResponseData(List<PlanetSummaryDto> planetList);

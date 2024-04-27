@@ -18,10 +18,12 @@ public static class PlanetExtension
     {
         #region Get all planets
         app.MapGet("api/v1/planets", async
-            (IRequestHandler<Core.Contexts.PlanetContext.UseCases.SearchAll.Request,
-            Core.Contexts.PlanetContext.UseCases.SearchAll.Response> handler) =>
+            (IRequestHandler
+                <Core.Contexts.PlanetContext.UseCases.SearchAll.Request,
+                Core.Contexts.PlanetContext.UseCases.SearchAll.Response> handler, 
+            [FromQuery] int page = 0, int pageSize = 2) =>
         {
-            var request = new Core.Contexts.PlanetContext.UseCases.SearchAll.Request();
+            var request = new Core.Contexts.PlanetContext.UseCases.SearchAll.Request(page, pageSize);
             var result = await handler.Handle(request, new CancellationToken());
 
             return result.IsSuccess

@@ -12,11 +12,6 @@ public class PlanetRepository : IPlanetRepository
     public PlanetRepository(AppDbContext appDbContext)
         => _appDbContext = appDbContext;
 
-    public async Task<List<Planet>?> GetAllAsync()
-        => await _appDbContext.Planets
-            .AsNoTracking()
-            .ToListAsync();
-
     public async Task<bool> AnyAsync(string name, string gravity)
         => await _appDbContext.Planets.AnyAsync(x => x.Name == name && x.Gravity.Equals(gravity));
 
@@ -51,4 +46,10 @@ public class PlanetRepository : IPlanetRepository
         }
         return false;
     }
+
+    public async Task<int> CountTotalItemsAsync()
+        => await _appDbContext.Planets.CountAsync();
+
+    public async Task<List<Planet>?> GetAllAsync(int page, int pageSize)
+        => await _appDbContext.Planets.Skip(page * pageSize).Take(pageSize).AsNoTracking().ToListAsync();
 }
