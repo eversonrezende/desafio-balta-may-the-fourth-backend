@@ -21,7 +21,7 @@ public static class PlanetExtension
             (IRequestHandler
                 <Core.Contexts.PlanetContext.UseCases.SearchAll.Request,
                 Core.Contexts.PlanetContext.UseCases.SearchAll.Response> handler, 
-            [FromQuery] int page = 0, int pageSize = 2) =>
+            [FromQuery] int page = 1, int pageSize = 10) =>
         {
             var request = new Core.Contexts.PlanetContext.UseCases.SearchAll.Request(page, pageSize);
             var result = await handler.Handle(request, new CancellationToken());
