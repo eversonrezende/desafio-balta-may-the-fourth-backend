@@ -74,7 +74,10 @@ public static class VehicleExtension
             return result.IsSuccess
                 ? Results.Ok(result)
                 : Results.Json(result, statusCode: result.Status);
-        });
+        })
+            .WithTags("Vehicle")
+            .WithSummary("Return a vehicle according to slug")
+            .WithOpenApi();
         #endregion
 
         #region Create vehicle
@@ -110,7 +113,10 @@ public static class VehicleExtension
             return result.IsSuccess
                 ? Results.Accepted("", result)
                 : Results.Json(result, statusCode: result.Status);
-        });
+        })
+            .WithTags("Vehicle")
+            .WithSummary("Delete a vehicle according to ID")
+            .WithOpenApi();
         #endregion
     }
 }

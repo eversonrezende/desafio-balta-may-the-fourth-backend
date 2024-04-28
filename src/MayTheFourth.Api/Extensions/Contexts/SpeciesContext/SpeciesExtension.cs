@@ -30,7 +30,7 @@ namespace MayTheFourth.Api.Extensions.Contexts.SpeciesContext
                     ? Results.Ok(result)
                     : Results.Json(result, statusCode: result.Status);
             })
-                .WithTags("Species")
+                .WithTags("Specie")
                 .Produces(TypedResults.Ok().StatusCode)
                 .Produces(TypedResults.NotFound().StatusCode)
                 .WithSummary("Return a list of species")
