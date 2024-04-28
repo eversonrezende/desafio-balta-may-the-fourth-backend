@@ -12,7 +12,7 @@ public class FakePlanetRepository : IPlanetRepository
     {
         _planets = new List<Planet>()
         {
-            new Planet { Id = Guid.NewGuid(), Name = "Tatooine", Gravity = "1.0x", Slug = "tatooine" },
+            new Planet { Id = new Guid("b32f441e-2f1e-421b-a484-2e1d1de32f1b"), Name = "Tatooine", Gravity = "1.0x", Slug = "tatooine" },
             new Planet { Id = Guid.NewGuid(), Name = "Dagobah", Gravity = "0.9g", Slug = "dagobah" },
             new Planet { Id = Guid.NewGuid(), Name = "Endor", Gravity = "0.8g", Slug = "endor" },
             new Planet { Id = Guid.NewGuid(), Name = "Coruscant", Gravity = "Normal", Slug = "coruscant" },
@@ -31,9 +31,7 @@ public class FakePlanetRepository : IPlanetRepository
     }
 
     public Task<Planet?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-    {
-        return Task.FromResult(_planets.FirstOrDefault(x => x.Id == id));
-    }
+        => Task.FromResult(_planets.FirstOrDefault(x => x.Id == id));
 
     public async Task<Planet?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
     {

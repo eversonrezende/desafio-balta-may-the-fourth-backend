@@ -14,7 +14,7 @@ public class FakeStarshipRepository : IStarshipRepository
         {
             new Starship()
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("1ca12345-6789-0abc-def0-1234567890ab"),
                 Name = "Millennium Falcon",
                 Slug = "millennium-falcon",
                 Manufacturer = "Corellian Engineering Corporation"
@@ -45,13 +45,15 @@ public class FakeStarshipRepository : IStarshipRepository
     }
 
     public Task<Starship?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+        => Task.FromResult(_starships.FirstOrDefault(x => x.Id == id));
 
-    public Task<Starship?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+    public async Task<Starship?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(slug))
+            return null;
+
+        var lowerCaseSlug = slug.ToLowerInvariant();
+        return await Task.FromResult(_starships.FirstOrDefault(x => x.Slug == lowerCaseSlug));
     }
 
     public Task SaveAsync(Starship starship, CancellationToken cancellationToken)
