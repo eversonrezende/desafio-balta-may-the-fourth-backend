@@ -758,24 +758,36 @@ https://localhost:7288/api/v1/vehicles
 ```json
 {
     "data": {
-        "vehicles": [
-            {
-                "id": "067b6e7a-8087-42d4-8773-00bfe37a9d94",
-                "name": "Sail barge",
-                "slug": "sail-barge",
-                "model": "Modified Luxury Sail Barge",
-                "manufacturer": "Ubrikkian Industries Custom Vehicle Division"
-            },
-            ...
-            {
-                "id": "8872566c-c3eb-4466-acd7-f4871d2c9757",
-                "name": "Armored Assault Tank",
-                "slug": "armored-assault-tank",
-                "model": "Armoured Assault Tank",
-                "manufacturer": "Baktoid Armor Workshop"
-            }
-        ],
-        "totalRecords": 39
+        "vehicles": {
+            "pageNumber": 1,
+            "pageSize": 3,
+            "count": 39,
+            "items": [
+                {
+                    "id": "067b6e7a-8087-42d4-8773-00bfe37a9d94",
+                    "name": "Sail barge",
+                    "slug": "sail-barge",
+                    "model": "Modified Luxury Sail Barge",
+                    "manufacturer": "Ubrikkian Industries Custom Vehicle Division"
+                },
+                {
+                    "id": "93dac45b-8cbe-434e-a404-0570de19322d",
+                    "name": "Tribubble bongo",
+                    "slug": "tribubble-bongo",
+                    "model": "Tribubble bongo",
+                    "manufacturer": "Otoh Gunga Bongameken Cooperative"
+                },
+                {
+                    "id": "2f2d1251-7fc2-4bd9-a0d4-0b312457ce21",
+                    "name": "Droid tri-fighter",
+                    "slug": "droid-tri-fighter",
+                    "model": "tri-fighter",
+                    "manufacturer": "Colla Designs, Phlac-Arphocc Automata Industries"
+                }
+            ],
+            "hasNext": true,
+            "hasPrevious": false
+        }
     },
     "message": "Lista de veículos encontrada.",
     "status": 200,
