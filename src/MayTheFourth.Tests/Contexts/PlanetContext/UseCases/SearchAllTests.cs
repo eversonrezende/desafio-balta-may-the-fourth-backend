@@ -1,7 +1,7 @@
 ﻿using MayTheFourth.Core.Contexts.PlanetContext.UseCases.SearchAll;
-using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
 using MayTheFourth.Tests.Repositories;
+using System.Net;
 
 namespace MayTheFourth.Tests.Contexts.PlanetContext.UseCases;
 
@@ -22,26 +22,45 @@ public class SearchAllTests
     public async Task Should_Return_Error_404_When_Repository_Returns_Empty_List()
     {
         var planetRepository = new FakePlanetRepository();
-        planetRepository.planets.Clear();
+        planetRepository._planets.Clear();
 
+        var pageNumber = 1;
+        var pageSize = 10;
         var handler = new Handler(planetRepository);
-        var request = new Request();
+        var request = new Request(pageNumber, pageSize);
 
         var response = await handler.Handle(request, CancellationToken.None);
 
-        Assert.AreEqual(404, response.Status);
+        Assert.AreEqual(((int)HttpStatusCode.NotFound), response.Status);
         Assert.AreEqual(false, response.IsSuccess);
+    }
+
+    [TestMethod]
+    [TestCategory("Handler")]
+    public async Task Should_Return_Error_When_PageNumber_Request_Is_Greater_Than_Total_Pages_Available()
+    {
+        var pageNumber = 100;
+        var pageSize = 10;
+        var request = new Request(pageNumber, pageSize);
+
+        var response = await _handler.Handle(request, new CancellationToken());
+
+        Assert.AreEqual(false, response.IsSuccess);
+        Assert.AreEqual(((int)HttpStatusCode.BadRequest), response.Status);
     }
 
     [TestMethod]
     [TestCategory("Handler")]
     public async Task Should_Succeed_When_PlanetList_Contains_Exactly_Five_Planets()
     {
-        var request = new Request();
+        var pageNumber = 1;
+        var pageSize = 10;
+        var request = new Request(pageNumber, pageSize);
+
         var response = await _handler.Handle(request, new CancellationToken());
         
-        Assert.AreEqual(5, response.Data?.planetList.Count, "Expected exactly five planets in the list.");
+        Assert.AreEqual(5, response.Data!.planets.Count, "Expected exactly five planets in the list.");
         Assert.AreEqual(true, response.IsSuccess);
-        Assert.AreEqual(200, response.Status);
+        Assert.AreEqual(((int)HttpStatusCode.OK), response.Status);
     }
 }

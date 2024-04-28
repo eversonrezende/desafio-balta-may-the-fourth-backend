@@ -3,6 +3,7 @@ using MayTheFourth.Core.Dtos;
 using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
 using MediatR;
+using System.Net;
 
 namespace MayTheFourth.Core.Contexts.StarshipContext.UseCases.SearchAll;
 
@@ -43,6 +44,9 @@ public class Handler : IRequestHandler<Request, Response>
 
         PagedList<StarshipSummaryDto> starshipPagedSummary =
             new(starships.PageNumber, starships.PageSize, countItems, starshipSummaryList);
+
+        if (starshipPagedSummary.PageNumber > Math.Ceiling((double)starshipPagedSummary.Count / starshipPagedSummary.PageSize))
+            return new Response($"Número de páginas inválido.", ((int)HttpStatusCode.BadRequest));
         #endregion
 
         #region Response

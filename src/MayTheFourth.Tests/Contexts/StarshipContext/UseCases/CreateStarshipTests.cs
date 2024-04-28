@@ -21,10 +21,10 @@ public class CreateStarshipTests
     public async Task Should_Return_Error_400_When_Starship_Already_Exists()
     {
         var request = new Request(
-            Name: "Executor",
+            Name: "Millennium Falcon",
             Model: "Executor-class Star Dreadnought",
             StarshipClass: "Star Dreadnought",
-            Manufacturer: "Kuat Drive Yards",
+            Manufacturer: "Corellian Engineering Corporation",
             CostInCredits: 1143350000,
             Length: 19000.0,
             Crew: 279,

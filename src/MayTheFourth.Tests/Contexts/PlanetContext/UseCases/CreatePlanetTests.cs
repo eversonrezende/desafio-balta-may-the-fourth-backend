@@ -22,11 +22,11 @@ public class CreatePlanetTests
     public async Task Should_Return_Error_400_When_Planet_Already_Exists()
     {
         var request = new Request(
-            Name: "Alderaan",
+            Name: "Tatooine",
             Diameter: 12500,
             RotationPeriod: 24,
             OrbitalPeriod: 364,
-            Gravity: "9.81",
+            Gravity: "1.0x",
             Population: 2000000000,
             Climate: "temperate",
             Terrain: "grasslands, mountains",
@@ -50,7 +50,7 @@ public class CreatePlanetTests
     public async Task Should_Return_Success_Response_When_Planet_Created_Successfully()
     {
         var request = new Request(
-            Name: "Tatooine",
+            Name: "PlanetTest",
             Diameter: 10465,
             RotationPeriod: 23,
             OrbitalPeriod: 304,
