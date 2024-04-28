@@ -44,7 +44,7 @@ builder.Services.AddSwaggerGen( options =>
         Description = "API para consulta de dados do universo de Star Wars",
         Contact = new OpenApiContact
         {
-            Name = "Capit�o Igor",
+            Name = "Capitão Igor",
             Url = new Uri("https://github.com/igorsantiiago/desafio-balta-may-the-fourth-backend")
         },
         License = new OpenApiLicense
