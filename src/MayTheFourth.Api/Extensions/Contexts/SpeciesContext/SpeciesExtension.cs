@@ -30,7 +30,7 @@ namespace MayTheFourth.Api.Extensions.Contexts.SpeciesContext
                     ? Results.Ok(result)
                     : Results.Json(result, statusCode: result.Status);
             })
-                .WithTags("Species")
+                .WithTags("Specie")
                 .Produces(TypedResults.Ok().StatusCode)
                 .Produces(TypedResults.NotFound().StatusCode)
                 .WithSummary("Return a list of species")
@@ -57,6 +57,30 @@ namespace MayTheFourth.Api.Extensions.Contexts.SpeciesContext
                 {
                     var parameter = opt.Parameters[0];
                     parameter.Description = "The ID associated with the created Species";
+                    return opt;
+                });
+            #endregion
+
+            #region Get species by slug
+            app.MapGet("api/v1/species/slug/{slug}", async (
+                [FromRoute] string slug,
+                [FromServices] IRequestHandler<
+                    Core.Contexts.SpeciesContext.UseCases.SearchBySlug.Request,
+                    Core.Contexts.SpeciesContext.UseCases.SearchBySlug.Response> handler) =>
+            {
+                var request = new Core.Contexts.SpeciesContext.UseCases.SearchBySlug.Request(slug);
+                var result = await handler.Handle(request, new CancellationToken());
+
+                return result.IsSuccess
+                    ? Results.Ok(result)
+                    : Results.Json(result, statusCode: result.Status);
+            })
+                .WithTags("Specie")
+                .WithSummary("Returns a species according to Slug")
+                .WithOpenApi(opt =>
+                {
+                    var parameter = opt.Parameters[0];
+                    parameter.Description = "The slug associated with the created Species";
                     return opt;
                 });
             #endregion

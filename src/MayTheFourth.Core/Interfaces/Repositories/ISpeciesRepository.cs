@@ -15,6 +15,6 @@ namespace MayTheFourth.Core.Interfaces.Repositories
         Task<PagedList<Species>> GetAllAsync(int pageNumber, int pageSize);
         Task<Species?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task SaveAsync(Species species, CancellationToken cancellationToken);
-
+        Task<Species?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
     }
 }

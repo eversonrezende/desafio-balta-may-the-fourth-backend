@@ -3,11 +3,6 @@ using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
 using MayTheFourth.Infra.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MayTheFourth.Infra.Repositories
 {
@@ -40,5 +35,12 @@ namespace MayTheFourth.Infra.Repositories
             .Include(x => x.People)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+        public async Task<Species?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+            => await _appDbContext.Species
+                .Include(x => x.Films)
+                .Include(x => x.People)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);
     }
 }

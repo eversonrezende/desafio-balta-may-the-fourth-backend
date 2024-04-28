@@ -1,6 +1,7 @@
 ﻿using MayTheFourth.Core.Contexts.StarshipContext.UseCases.SearchAll;
 using MayTheFourth.Core.Interfaces.Repositories;
 using MayTheFourth.Tests.Repositories;
+using System.Net;
 
 namespace MayTheFourth.Tests.Contexts.StarshipContext.UseCases;
 
@@ -21,25 +22,45 @@ public class SearchAllTests
     public async Task Should_Return_Error_404_When_StarshipList_Is_Empty()
     {
         var starshipRepository = new FakeStarshipRepository();
-        starshipRepository.starships.Clear();
+        starshipRepository._starships.Clear();
 
+        var pageNumber = 1;
+        var pageSize = 10;
         var handler = new Handler(starshipRepository);
-        var request = new Request();
+        var request = new Request(pageNumber, pageSize);
 
-        var response = await handler.Handle(request, new CancellationToken());
+        var response = await handler.Handle(request, CancellationToken.None);
 
-        Assert.AreEqual(404, response.Status);
+        Assert.AreEqual(((int)HttpStatusCode.NotFound), response.Status);
         Assert.AreEqual(false, response.IsSuccess);
     }
 
     [TestMethod]
     [TestCategory("Handler")]
-    public async Task Should_Succeed_When_SpaceshipList_Contains_Exacly_Two_Starships()
+    public async Task Should_Return_Error_When_PageNumber_Request_Is_Greater_Than_Total_Pages_Available()
     {
-        var request = new Request();
+        var pageNumber = 100;
+        var pageSize = 10;
+        var request = new Request(pageNumber, pageSize);
+
         var response = await _handler.Handle(request, new CancellationToken());
 
-        Assert.AreEqual(2, response.Data?.StarshipList.Count, "Expected exactly two starships in the list.");
+        Assert.AreEqual(false, response.IsSuccess);
+        Assert.AreEqual(((int)HttpStatusCode.BadRequest), response.Status);
+    }
+
+    [TestMethod]
+    [TestCategory("Handler")]
+    public async Task Should_Succeed_When_SpaceshipList_Contains_Exacly_Three_Starships()
+    {
+        var pageNumber = 1;
+        var pageSize = 10;
+        var request = new Request(pageNumber, pageSize);
+
+        var response = await _handler.Handle(request, new CancellationToken());
+
+        Assert.AreEqual(3, response.Data!.starships.Count, "Expected exactly three starships in the list.");
         Assert.AreEqual(true, response.IsSuccess);
+        Assert.AreEqual(((int)HttpStatusCode.OK), response.Status);
     }
 }

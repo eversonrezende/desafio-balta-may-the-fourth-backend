@@ -85,25 +85,5 @@ public static class PersonExtension
             .WithSummary("Return a person according to slug")
             .WithOpenApi();
         #endregion
-
-        #region Create person
-        app.MapPost("api/v1/people/create", async (
-            [FromBody] Core.Contexts.PersonContext.UseCases.Create.Request request,
-            [FromServices] IRequestHandler<
-                Core.Contexts.PersonContext.UseCases.Create.Request,
-                Core.Contexts.PersonContext.UseCases.Create.Response> handler) =>
-        {
-            var result = await handler.Handle(request, new CancellationToken());
-
-            return result.IsSuccess
-                ? Results.Created($"api/v1/people/create/{result.Data?.person.Id}", result)
-                : Results.Json(result, statusCode: result.Status);
-        })
-            .WithTags("Person")
-            .Produces(TypedResults.Created().StatusCode)
-            .Produces(TypedResults.BadRequest().StatusCode)
-            .WithOpenApi()
-            .WithSummary("Create a person");
-        #endregion
     }
 }
