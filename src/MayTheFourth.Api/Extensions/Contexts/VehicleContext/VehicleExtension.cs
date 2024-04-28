@@ -74,7 +74,10 @@ public static class VehicleExtension
             return result.IsSuccess
                 ? Results.Ok(result)
                 : Results.Json(result, statusCode: result.Status);
-        });
+        })
+            .WithTags("Vehicle")
+            .WithSummary("Return a vehicle according to slug")
+            .WithOpenApi();
         #endregion
     }
 }
