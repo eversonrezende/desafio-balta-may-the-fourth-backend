@@ -19,11 +19,13 @@ public static class StarshipExtension
     public static void MapStarshipEndpoints(this WebApplication app)
     {
         #region Get all starships
-        app.MapGet("api/v1/starships", async (IRequestHandler<
-            Core.Contexts.StarshipContext.UseCases.SearchAll.Request,
-            Core.Contexts.StarshipContext.UseCases.SearchAll.Response> handler) =>
+        app.MapGet("api/v1/starships", async (
+            IRequestHandler<
+                Core.Contexts.StarshipContext.UseCases.SearchAll.Request,
+                Core.Contexts.StarshipContext.UseCases.SearchAll.Response> handler,
+            [FromQuery] int pageNumber = 1, int pageSize = 10) =>
         {
-            var request = new Core.Contexts.StarshipContext.UseCases.SearchAll.Request();
+            var request = new Core.Contexts.StarshipContext.UseCases.SearchAll.Request(pageNumber, pageSize);
             var result = await handler.Handle(request, new CancellationToken());
 
             return result.IsSuccess

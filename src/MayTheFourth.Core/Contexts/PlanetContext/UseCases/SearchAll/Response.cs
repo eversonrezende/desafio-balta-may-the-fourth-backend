@@ -1,4 +1,5 @@
-﻿using MayTheFourth.Core.Dtos;
+﻿using MayTheFourth.Core.Contexts.SharedContext;
+using MayTheFourth.Core.Dtos;
 using MayTheFourth.Core.Entities;
 
 namespace MayTheFourth.Core.Contexts.PlanetContext.UseCases.SearchAll;
@@ -11,17 +12,14 @@ public class Response : SharedContext.UseCases.Response
         Status = status;
     }
 
-    public Response(string message, ResponseData data, int page, int pageSize, int totalItems)
+    public Response(string message, ResponseData data)
     {
         Message = message;
         Status = 200;
         Data = data;
-        Page = page;
-        PageSize = pageSize;
-        TotalItems = totalItems;
     }
 
     public ResponseData? Data { get; set; }
 }
 
-public record ResponseData(List<PlanetSummaryDto> planetList);
+public record ResponseData(PagedList<PlanetSummaryDto> pagedPlanetList);
