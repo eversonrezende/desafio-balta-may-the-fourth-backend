@@ -22,4 +22,4 @@ public class Response : SharedContext.UseCases.Response
     public ResponseData? Data { get; set; }
 }
 
-public record ResponseData(PagedList<PlanetSummaryDto> pagedPlanetList);
+public record ResponseData(PagedList<PlanetSummaryDto> planets);

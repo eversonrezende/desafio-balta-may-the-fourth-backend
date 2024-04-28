@@ -1,3 +1,4 @@
+using MayTheFourth.Core.Contexts.SharedContext;
 using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
 using MayTheFourth.Infra.Data;
@@ -5,24 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MayTheFourth.Infra.Repositories;
 
-public class VehicleRepository: IVehicleRepository
+public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
 {
-    private readonly AppDbContext _appDbContext;
-
-    public VehicleRepository(AppDbContext appDbContext)
-        => _appDbContext = appDbContext;
+    public VehicleRepository(AppDbContext appDbContext) : base(appDbContext) { }
     
     public async Task<bool> AnyAsync(string name, string model)
         => await _appDbContext.Vehicles.AnyAsync(x => x.Name == name && x.Model == model);
-
-    public async Task<(List<Vehicle>? vehicles, int totalRecords)> GetAllAsync(int pageNumber, int pageSize)
-    {
-        var totalRecords = await _appDbContext.Vehicles.CountAsync();
-
-        var vehicles = await _appDbContext.Vehicles.Skip((pageNumber - 1) * pageSize).AsNoTracking().ToListAsync();
-
-        return (vehicles, totalRecords);
-    } 
     
     public async Task<Vehicle?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         => await _appDbContext.Vehicles
@@ -52,5 +41,14 @@ public class VehicleRepository: IVehicleRepository
         await _appDbContext.SaveChangesAsync(cancellationToken);
         return true;
 
+    }
+
+    public async Task<int> CountTotalItemsAsync()
+        => await _appDbContext.Vehicles.CountAsync();
+
+    public async Task<PagedList<Vehicle>?> GetAllAsync(int pageNumber, int pageSize)
+    {
+        var vehicles = _appDbContext.Vehicles.AsQueryable();
+        return await GetPagedAsync(vehicles, pageNumber, pageSize);
     }
 }

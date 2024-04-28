@@ -2,4 +2,19 @@ using MediatR;
 
 namespace MayTheFourth.Core.Contexts.VehicleContext.UseCases.SearchAll;
 
-public record Request(int PageNumber, int PageSize) : IRequest<Response>;
+public class Request : IRequest<Response>
+{
+    public Request(int pageNumber, int pageSize)
+    {
+        PageNumber = pageNumber;
+        PageSize = pageSize;
+    }
+
+    public int PageNumber { get; private set; }
+    public int PageSize { get; private set; }
+
+    public void ChangePageSize(int newPageSize)
+    {
+        PageSize = newPageSize;
+    }
+}
