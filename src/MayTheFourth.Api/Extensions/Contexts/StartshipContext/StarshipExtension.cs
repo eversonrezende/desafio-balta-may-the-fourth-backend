@@ -81,25 +81,5 @@ public static class StarshipExtension
             .WithSummary("Return a starship according to slug")
             .WithOpenApi();
         #endregion
-
-        #region Create Starship
-        app.MapPost("api/v1/starships/create", async (
-            [FromBody] Core.Contexts.StarshipContext.UseCases.Create.Request request,
-            [FromServices] IRequestHandler<
-                Core.Contexts.StarshipContext.UseCases.Create.Request,
-                Core.Contexts.StarshipContext.UseCases.Create.Response> handler) =>
-        {
-            var result = await handler.Handle(request, new CancellationToken());
-
-            return result.IsSuccess
-                ? Results.Created($"api/v1/starships/create/{result.Data?.starship.Id}", result)
-                : Results.Json(result, statusCode: result.Status);
-        })
-            .WithTags("Starship")
-            .Produces(TypedResults.Created().StatusCode)
-            .Produces(TypedResults.BadRequest().StatusCode)
-            .WithOpenApi()
-            .WithSummary("Create a starship");
-        #endregion
     }
 }
