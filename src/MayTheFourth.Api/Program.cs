@@ -13,6 +13,12 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("RebelRenegades", builder =>
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 builder.AddConfiguration();
 builder.AddPlanetContext();
 builder.AddStarshipContext();
@@ -70,6 +76,7 @@ var resourceFileName = builder.Configuration["ImportSettings:ResourceFileName"];
 
 await app.ImportDataAsync(resourceFileName!);
 
+app.UseCors("RebelRenegades");
 app.MapPlanetEndpoints();
 app.MapStarshipEndpoints();
 app.MapFilmEndpoints();
