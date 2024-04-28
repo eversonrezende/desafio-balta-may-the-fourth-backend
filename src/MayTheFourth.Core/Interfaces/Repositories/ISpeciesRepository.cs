@@ -13,5 +13,6 @@ namespace MayTheFourth.Core.Interfaces.Repositories
         Task<int> CountItemsAsync();
         Task<PagedList<Species>> GetAllAsync(int pageNumber, int pageSize);
         Task<Species?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<Species?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
     }
 }
