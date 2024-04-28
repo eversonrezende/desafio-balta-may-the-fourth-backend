@@ -172,24 +172,36 @@ https://localhost:7288/api/v1/film
 ```json
 {
     "data": {
-        "films": [
-            {
-                "id": "745f8223-d2b4-4993-9244-046d21a8749c",
-                "title": "The Force Awakens",
-                "slug": "the-force-awakens",
-                "director": "J. J. Abrams",
-                "releaseDate": "2015-12-11T00:00:00"
-            },
-            ...
-            {
-                "id": "8e5603df-b22a-449d-8810-a67cff57edd5",
-                "title": "The Empire Strikes Back",
-                "slug": "the-empire-strikes-back",
-                "director": "Irvin Kershner",
-                "releaseDate": "1980-05-17T00:00:00"
-            }
-        ],
-        "totalRecords": 7
+        "films": {
+            "pageNumber": 1,
+            "pageSize": 3,
+            "count": 7,
+            "items": [
+                {
+                    "id": "745f8223-d2b4-4993-9244-046d21a8749c",
+                    "title": "The Force Awakens",
+                    "slug": "the-force-awakens",
+                    "director": "J. J. Abrams",
+                    "releaseDate": "2015-12-11T00:00:00"
+                },
+                {
+                    "id": "90c6bb7c-848a-4396-b139-19dab5a6ee08",
+                    "title": "Revenge of the Sith",
+                    "slug": "revenge-of-the-sith",
+                    "director": "George Lucas",
+                    "releaseDate": "2005-05-19T00:00:00"
+                },
+                {
+                    "id": "bc080eed-9d02-441d-8de8-4cac3fff3b6c",
+                    "title": "Return of the Jedi",
+                    "slug": "return-of-the-jedi",
+                    "director": "Richard Marquand",
+                    "releaseDate": "1983-05-25T00:00:00"
+                }
+            ],
+            "hasNext": true,
+            "hasPrevious": false
+        }
     },
     "message": "Lista de filmes encontrada",
     "status": 200,
@@ -278,25 +290,39 @@ https://localhost:7288/api/v1/people
 ```json
 {
     "data": {
-        "people": [
-            {
-                "id": "f7edce7b-a267-467c-870d-020585dcd09c",
-                "name": "Shmi Skywalker",
-                "slug": "shmi-skywalker",
-                "birthYear": "72BBY",
-                "gender": "female",
-                "homeworldId": "a17f9b44-b872-42b3-975a-477bba1f634e"
-            },
-            ...
-            {
-                "id": "1fddf440-6960-48c2-b50d-fa3e5fabf96d",
-                "name": "Ackbar",
-                "slug": "ackbar",
-                "birthYear": "41BBY",
-                "gender": "male",
-                "homeworldId": "aedbf9f4-1e05-42aa-b2ef-ff7496f8f738"
-            }
-        ]
+        "people": {
+            "pageNumber": 1,
+            "pageSize": 3,
+            "count": 87,
+            "items": [
+                {
+                    "id": "f7edce7b-a267-467c-870d-020585dcd09c",
+                    "name": "Shmi Skywalker",
+                    "slug": "shmi-skywalker",
+                    "birthYear": "72BBY",
+                    "gender": "female",
+                    "homeworldId": "a17f9b44-b872-42b3-975a-477bba1f634e"
+                },
+                {
+                    "id": "01e51dff-4106-4d50-8f9c-078056177142",
+                    "name": "Boba Fett",
+                    "slug": "boba-fett",
+                    "birthYear": "31.5BBY",
+                    "gender": "male",
+                    "homeworldId": "8170d66b-2f7f-40f8-849c-f245d44ca6af"
+                },
+                {
+                    "id": "9f4d4bf5-1f5e-45e1-9089-0811e8bc81c8",
+                    "name": "Wicket Systri Warrick",
+                    "slug": "wicket-systri-warrick",
+                    "birthYear": "8BBY",
+                    "gender": "male",
+                    "homeworldId": "2e81b845-d074-4ed5-9bf5-6fd36aec91bf"
+                }
+            ],
+            "hasNext": true,
+            "hasPrevious": false
+        }
     },
     "message": "Lista de personagens encontrada",
     "status": 200,
@@ -376,27 +402,41 @@ https://localhost:7288/api/v1/planets
 ```json
 {
     "data": {
-        "planetList": [
-            {
-                "id": "28b1b0c5-5adf-4de1-a3b1-02b992dd129b",
-                "name": "Serenno",
-                "slug": "serenno",
-                "gravity": "unknown",
-                "population": 0,
-                "climate": "unknown"
-            },
-            ...
-            {
-                "id": "aedbf9f4-1e05-42aa-b2ef-ff7496f8f738",
-                "name": "Mon Cala",
-                "slug": "mon-cala",
-                "gravity": "1",
-                "population": 0,
-                "climate": "temperate"
-            }
-        ]
+        "planets": {
+            "pageNumber": 1,
+            "pageSize": 3,
+            "count": 61,
+            "items": [
+                {
+                    "id": "28b1b0c5-5adf-4de1-a3b1-02b992dd129b",
+                    "name": "Serenno",
+                    "slug": "serenno",
+                    "gravity": "unknown",
+                    "population": 0,
+                    "climate": "unknown"
+                },
+                {
+                    "id": "dfbbef16-f551-41f2-b13b-0a9f1dc795db",
+                    "name": "Bestine IV",
+                    "slug": "bestine-iv",
+                    "gravity": "unknown",
+                    "population": 680,
+                    "climate": "temperate"
+                },
+                {
+                    "id": "ea5baeb9-8fe5-4bbb-8a9e-0eab1a16ed7c",
+                    "name": "Iridonia",
+                    "slug": "iridonia",
+                    "gravity": "unknown",
+                    "population": 0,
+                    "climate": "unknown"
+                }
+            ],
+            "hasNext": true,
+            "hasPrevious": false
+        }
     },
-    "message": "Uma lista de planetas foi encontrado.",
+    "message": "Lista de planetas foi encontrado.",
     "status": 200,
     "isSuccess": true
 }
@@ -475,27 +515,41 @@ https://localhost:7288/api/v1/species
 ```json
 {
     "data": {
-        "speciesList": [
-            {
-                "id": "52bb822b-6ce1-43a8-9f2f-001c7cb16444",
-                "name": "Kel Dor",
-                "slug": "kel-dor",
-                "classification": "unknown",
-                "designation": "sentient",
-                "language": "Kel Dor"
-            },
-            ...
-            {
-                "id": "943c8b74-1d93-4818-a231-f1dfa0251279",
-                "name": "Droid",
-                "slug": "droid",
-                "classification": "artificial",
-                "designation": "sentient",
-                "language": "n/a"
-            }
-        ]
+        "species": {
+            "pageNumber": 1,
+            "pageSize": 3,
+            "count": 37,
+            "items": [
+                {
+                    "id": "52bb822b-6ce1-43a8-9f2f-001c7cb16444",
+                    "name": "Kel Dor",
+                    "slug": "kel-dor",
+                    "classification": "unknown",
+                    "designation": "sentient",
+                    "language": "Kel Dor"
+                },
+                {
+                    "id": "79ea6a3b-bc62-4767-8664-03b56c473f0c",
+                    "name": "Rodian",
+                    "slug": "rodian",
+                    "classification": "sentient",
+                    "designation": "reptilian",
+                    "language": "Galatic Basic"
+                },
+                {
+                    "id": "defa5400-25ba-46e6-ad3e-03f2d24e7fd5",
+                    "name": "Mirialan",
+                    "slug": "mirialan",
+                    "classification": "mammal",
+                    "designation": "sentient",
+                    "language": "Mirialan"
+                }
+            ],
+            "hasNext": true,
+            "hasPrevious": false
+        }
     },
-    "message": "Lista de espécies encontrada.",
+    "message": "Lista de espécies encontrada",
     "status": 200,
     "isSuccess": true
 }
@@ -583,23 +637,36 @@ https://localhost:7288/api/v1/starships
 ```json
 {
     "data": {
-        "starshipList": [
-            {
-                "id": "aaf03230-fdf0-464e-911b-060d684d9560",
-                "name": "Rebel transport",
-                "slug": "rebel-transport",
-                "model": "GR-75 medium transport",
-                "manufacturer": "Gallofree Yards, Inc."
-            },
-            ...
-            {
-                "id": "05cb6071-2791-408c-923e-ff9a360998fc",
-                "name": "Sentinel-class landing craft",
-                "slug": "sentinel-class-landing-craft",
-                "model": "Sentinel-class landing craft",
-                "manufacturer": "Sienar Fleet Systems, Cyngus Spaceworks"
-            }
-        ]
+        "starships": {
+            "pageNumber": 1,
+            "pageSize": 3,
+            "count": 37,
+            "items": [
+                {
+                    "id": "aaf03230-fdf0-464e-911b-060d684d9560",
+                    "name": "Rebel transport",
+                    "slug": "rebel-transport",
+                    "model": "GR-75 medium transport",
+                    "manufacturer": "Gallofree Yards, Inc."
+                },
+                {
+                    "id": "bc8ef15e-c2d3-4e57-8ebb-0ce187b58c90",
+                    "name": "X-wing",
+                    "slug": "x-wing",
+                    "model": "T-65 X-wing",
+                    "manufacturer": "Incom Corporation"
+                },
+                {
+                    "id": "014c8a34-08c3-43a7-b633-0eef77cdc1a6",
+                    "name": "Droid control ship",
+                    "slug": "droid-control-ship",
+                    "model": "Lucrehulk-class Droid Control Ship",
+                    "manufacturer": "Hoersch-Kessel Drive, Inc."
+                }
+            ],
+            "hasNext": true,
+            "hasPrevious": false
+        }
     },
     "message": "Lista de naves encontrada.",
     "status": 200,
@@ -691,24 +758,36 @@ https://localhost:7288/api/v1/vehicles
 ```json
 {
     "data": {
-        "vehicles": [
-            {
-                "id": "067b6e7a-8087-42d4-8773-00bfe37a9d94",
-                "name": "Sail barge",
-                "slug": "sail-barge",
-                "model": "Modified Luxury Sail Barge",
-                "manufacturer": "Ubrikkian Industries Custom Vehicle Division"
-            },
-            ...
-            {
-                "id": "8872566c-c3eb-4466-acd7-f4871d2c9757",
-                "name": "Armored Assault Tank",
-                "slug": "armored-assault-tank",
-                "model": "Armoured Assault Tank",
-                "manufacturer": "Baktoid Armor Workshop"
-            }
-        ],
-        "totalRecords": 39
+        "vehicles": {
+            "pageNumber": 1,
+            "pageSize": 3,
+            "count": 39,
+            "items": [
+                {
+                    "id": "067b6e7a-8087-42d4-8773-00bfe37a9d94",
+                    "name": "Sail barge",
+                    "slug": "sail-barge",
+                    "model": "Modified Luxury Sail Barge",
+                    "manufacturer": "Ubrikkian Industries Custom Vehicle Division"
+                },
+                {
+                    "id": "93dac45b-8cbe-434e-a404-0570de19322d",
+                    "name": "Tribubble bongo",
+                    "slug": "tribubble-bongo",
+                    "model": "Tribubble bongo",
+                    "manufacturer": "Otoh Gunga Bongameken Cooperative"
+                },
+                {
+                    "id": "2f2d1251-7fc2-4bd9-a0d4-0b312457ce21",
+                    "name": "Droid tri-fighter",
+                    "slug": "droid-tri-fighter",
+                    "model": "tri-fighter",
+                    "manufacturer": "Colla Designs, Phlac-Arphocc Automata Industries"
+                }
+            ],
+            "hasNext": true,
+            "hasPrevious": false
+        }
     },
     "message": "Lista de veículos encontrada.",
     "status": 200,
