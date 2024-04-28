@@ -8,6 +8,7 @@ namespace MayTheFourth.DataImporter.Services.Contexts.SharedContext
 {
     public interface IEntityService
     {
-        Task ImportAsync(string jsonList, CancellationToken cancellationToken);
+        void LoadList(string jsonList);
+        Task ImportAsync(CancellationToken cancellationToken);
     }
 }

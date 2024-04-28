@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MayTheFourth.DataImporter.Services.Contexts.PlanetContext
+namespace MayTheFourth.DataImporter.Extensions
 {
     public static class PlanetDTOExtension
     {

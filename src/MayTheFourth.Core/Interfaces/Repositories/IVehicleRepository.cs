@@ -5,6 +5,7 @@ namespace MayTheFourth.Core.Interfaces.Repositories;
 
 public interface IVehicleRepository
 {
+    Task<bool> AnyAsync();
     Task<bool> AnyAsync(string name, string model);
     Task<int> CountTotalItemsAsync();
     Task<bool> DeleteVehicleByIdAsync(Guid id, CancellationToken cancellationToken);

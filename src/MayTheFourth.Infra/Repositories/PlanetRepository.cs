@@ -10,6 +10,9 @@ public class PlanetRepository : BaseRepository<Planet>, IPlanetRepository
 {
     public PlanetRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
+    public async Task<bool> AnyAsync()
+        => await _appDbContext.Planets.AnyAsync();
+
     public async Task<bool> AnyAsync(string name, string gravity)
         => await _appDbContext.Planets.AnyAsync(x => x.Name == name && x.Gravity.Equals(gravity));
 
@@ -32,6 +35,11 @@ public class PlanetRepository : BaseRepository<Planet>, IPlanetRepository
             .Include(x => x.Films)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Slug == slug);
+
+    public async Task<Planet?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    => await _appDbContext.Planets
+        .AsNoTracking()
+        .FirstOrDefaultAsync(x => x.Url == url);
 
     public async Task<bool> DeletePlanetByIdAsync(Guid id, CancellationToken cancellationToken)
     {

@@ -1,6 +1,9 @@
 ﻿using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
+using MayTheFourth.DataImporter.DTOs;
+using MayTheFourth.DataImporter.Services.Contexts.PersonContext;
 using MayTheFourth.DataImporter.Services.Contexts.PlanetContext;
+using MayTheFourth.DataImporter.Services.Contexts.SharedContext;
 using MayTheFourth.Infra.Data;
 using MayTheFourth.Infra.DTOs;
 using MayTheFourth.Infra.Repositories;
@@ -21,18 +24,26 @@ namespace MayTheFourth.DataImporter.Services
 {
     public class JsonFileImportService : IDataImportService
     {
-        private readonly IPlanetRepository _planetRepository;
+        private readonly PlanetService _planetService;
+        private readonly PersonService _personService;
 
-        public string ResourceFileName { get; private set; } = string.Empty;
+        public string ResourceFileName { get; set; } = string.Empty;
 
-        public JsonFileImportService(string resourceFileName, IPlanetRepository planetRepository)
+        public JsonFileImportService(PlanetService planetService, PersonService personService)
         {
-            _planetRepository = planetRepository;
-            ResourceFileName = resourceFileName;
+            _planetService = planetService;
+            _personService = personService;
+        }
+        private async Task<bool> IsDatabaseEmpty()
+        {
+            return await _planetService.IsEmpty()
+                & await _personService.IsEmpty();
         }
 
         public async Task ImportDataAsync(CancellationToken cancellationToken)
         {
+            if (!await IsDatabaseEmpty()) return;
+
             try
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
@@ -51,20 +62,40 @@ namespace MayTheFourth.DataImporter.Services
                                 JsonElement results = data.GetProperty("results");
                                 switch (endpoint)
                                 {
-                                    case "planets":
-                                        var planetService = new PlanetService(_planetRepository);
-                                        await planetService.ImportAsync(results.GetRawText(), cancellationToken);
+                                    case "people":
+                                        _personService.LoadList(results.GetRawText());
                                         break;
 
-                                    case "films":
-                                        // TODO
+                                    case "planets":
+                                        _planetService.LoadList(results.GetRawText());
                                         break;
+
+                                    //case "films":
+                                    //    films = JsonSerializer.Deserialize<List<FilmDTO>>(results.GetRawText())!;
+                                    //    break;
+
+                                    //case "species":
+                                    //    speciesList = JsonSerializer.Deserialize<List<SpeciesDTO>>(results.GetRawText())!;
+                                    //    break;
+
+                                    //case "starships":
+                                    //    starships = JsonSerializer.Deserialize<List<StarshipDTO>>(results.GetRawText())!;
+                                    //    break;
+
+                                    //case "vehicles":
+                                    //    vehicles = JsonSerializer.Deserialize<List<VehicleDTO>>(results.GetRawText())!;
+                                    //    break;
                                 }
                             }
                         }
                     }
 
                 }
+
+                // Planet tem que ser o primeiro, porque os outros têm referência pra ele
+                await _planetService.ImportAsync(cancellationToken);
+                await _personService.ImportAsync(cancellationToken);
+
 
             }
             catch (Exception ex)

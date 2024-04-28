@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using MayTheFourth.DataImporter.Services.Contexts.PersonContext;
+using MayTheFourth.DataImporter.Services.Contexts.PlanetContext;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MayTheFourth.Api.Extensions.Contexts.PersonContext;
@@ -11,6 +13,10 @@ public static class PersonExtension
         builder.Services.AddTransient
             <Core.Interfaces.Repositories.IPersonRepository,
             Infra.Repositories.PersonRepository>();
+        #endregion
+
+        #region Register Person Service
+        builder.Services.AddTransient<PersonService>();
         #endregion
     }
 

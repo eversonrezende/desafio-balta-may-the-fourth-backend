@@ -10,6 +10,9 @@ public class StarshipRepository : BaseRepository<Starship>, IStarshipRepository
 {
     public StarshipRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
+    public async Task<bool> AnyAsync()
+        => await _appDbContext.Planets.AnyAsync();
+
     public async Task<bool> AnyAsync(string name, CancellationToken cancellationToken)
         => await _appDbContext.Starships.AnyAsync(x => x.Name == name, cancellationToken);
 

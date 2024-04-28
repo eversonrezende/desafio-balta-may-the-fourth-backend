@@ -17,7 +17,8 @@ namespace MayTheFourth.DataImporter.Services
             _appDbContext = appDbContext;
         }
 
-        public async Task ImportDataAsync()
+
+        public async Task ImportDataAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

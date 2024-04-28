@@ -10,6 +10,9 @@ public class PersonRepository : BaseRepository<Person>, IPersonRepository
 {
     public PersonRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
+    public async Task<bool> AnyAsync()
+    => await _appDbContext.Planets.AnyAsync();
+
     public async Task<PagedList<Person>> GetAllAsync(int pageNumber, int pageSize)
     {
         var query = _appDbContext.People.AsQueryable();

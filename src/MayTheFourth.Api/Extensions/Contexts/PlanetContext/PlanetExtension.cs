@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using MayTheFourth.DataImporter.Services.Contexts.PlanetContext;
+using MayTheFourth.DataImporter.Services.Contexts.SharedContext;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MayTheFourth.Api.Extensions.Contexts.PlanetContext;
@@ -11,6 +13,10 @@ public static class PlanetExtension
         builder.Services.AddTransient
             <Core.Interfaces.Repositories.IPlanetRepository,
             Infra.Repositories.PlanetRepository>();
+        #endregion
+
+        #region Register Planet Service
+        builder.Services.AddTransient <PlanetService>();
         #endregion
     }
 

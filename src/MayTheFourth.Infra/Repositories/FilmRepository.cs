@@ -13,6 +13,14 @@ public class FilmRepository : BaseRepository<Film>, IFilmRepository
     {
 
     }
+    public async Task<bool> AnyAsync()
+    => await _appDbContext.Planets.AnyAsync();
+
+    public async Task SaveAsync(Film film, CancellationToken cancellationToken)
+    {
+        await _appDbContext.Films.AddAsync(film);
+        await _appDbContext.SaveChangesAsync();
+    }
 
     public async Task<int> CountItemsAsync()
         => await _appDbContext.Films.CountAsync();
