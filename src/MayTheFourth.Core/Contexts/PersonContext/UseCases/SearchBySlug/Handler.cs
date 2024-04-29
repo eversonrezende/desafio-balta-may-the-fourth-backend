@@ -16,12 +16,9 @@ public class Handler : IRequestHandler<Request, Response>
 
     public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
     {
-        #region Validate Request
-        //TODO: Implement validation system
-        #endregion
-
         #region Get character(person) by slug
         Person? person;
+
         try
         {
             person = await _personRepository.GetBySlugAsync(request.Slug, cancellationToken);

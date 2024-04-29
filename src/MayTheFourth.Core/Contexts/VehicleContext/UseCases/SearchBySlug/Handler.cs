@@ -10,14 +10,13 @@ public class Handler : IRequestHandler<Request, Response>
 {
     private readonly IVehicleRepository _vehicleRepository;
     public Handler(IVehicleRepository vehicleRepository)
-    {
-        _vehicleRepository = vehicleRepository;
-    }
+        => _vehicleRepository = vehicleRepository;
 
     public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
     {
         #region Get vehicle by slug
         Vehicle? vehicle;
+
         try
         {
             vehicle = await _vehicleRepository.GetBySlugAsync(request.Slug, cancellationToken);
@@ -28,6 +27,7 @@ public class Handler : IRequestHandler<Request, Response>
         {
             return new Response($"Erro: {ex.Message}", (int)HttpStatusCode.InternalServerError);
         }
+
         VehicleDetailsDto vehicleDetails = new(vehicle);
         #endregion
 

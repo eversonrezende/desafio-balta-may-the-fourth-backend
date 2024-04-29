@@ -5,8 +5,6 @@ namespace MayTheFourth.Core.Dtos;
 
 public class SpeciesSummaryDto
 {
-    public SpeciesSummaryDto() { }
-
     public SpeciesSummaryDto(Species species)
     {
         Id = species.Id;
@@ -17,10 +15,10 @@ public class SpeciesSummaryDto
         Language = species.Language;
     }
 
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Slug { get; set; } = string.Empty;
-    public string Classification { get; set; } = string.Empty;
-    public string Designation { get; set; } = string.Empty;
-    public string Language { get; set; } = string.Empty;
+    public Guid Id { get; }
+    public string Name { get; } = string.Empty;
+    public string Slug { get; } = string.Empty;
+    public string Classification { get; } = string.Empty;
+    public string Designation { get; } = string.Empty;
+    public string Language { get; } = string.Empty;
 }

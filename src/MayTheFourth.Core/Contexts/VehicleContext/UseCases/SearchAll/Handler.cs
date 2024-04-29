@@ -11,26 +11,25 @@ public class Handler: IRequestHandler<Request, Response>
 {
     private readonly IVehicleRepository _vehicleRepository;
     public Handler(IVehicleRepository vehicleRepository)
-    {
-        _vehicleRepository = vehicleRepository;
-    }
+        => _vehicleRepository = vehicleRepository;
 
     public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
     {
         #region Get All Vehicles
         PagedList<Vehicle>? vehicles;
+        int pageSizeLimit = 30;
         int countItems = 0;
+
         try
         {
-            if(request.PageSize > 30)
-                request.ChangePageSize(30);
+            if(request.PageSize > pageSizeLimit)
+                request.ChangePageSize(pageSizeLimit);
 
             countItems = await _vehicleRepository.CountTotalItemsAsync();
-
             vehicles = await _vehicleRepository.GetAllAsync(request.PageNumber, request.PageSize);
 
             if (vehicles is null)
-                return new Response("Nenhum veículo encontrado.", (int)HttpStatusCode.NotFound);
+                return new Response("Nenhum veículo encontrado.", (int)HttpStatusCode.OK);
 
             if (request.PageSize > vehicles.Count)
                 vehicles.ChangePageSize(countItems);
@@ -45,6 +44,12 @@ public class Handler: IRequestHandler<Request, Response>
 
         PagedList<VehicleSummaryDto> vehiclesPagedSummary =
             new(vehicles.PageNumber, vehicles.PageSize, countItems, vehicleSummaryList);
+
+        var requestPageNumberOutOfRange =
+            vehiclesPagedSummary.PageNumber > Math.Ceiling((double)vehiclesPagedSummary.Count / vehiclesPagedSummary.PageSize);
+
+        if (requestPageNumberOutOfRange)
+            return new Response($"Erro: Número de páginas inválido.", ((int)HttpStatusCode.BadRequest));
         #endregion
 
         #region Response

@@ -18,25 +18,26 @@ public class Handler : IRequestHandler<Request, Response>
     {
         #region Get List of Starships
         PagedList<Starship>? starships;
+        int pageSizeLimit = 30;
         int countItems = 0;
+
         try
         {
-            if (request.PageSize > 30)
-                request.ChangePageSize(30);
+            if (request.PageSize > pageSizeLimit)
+                request.ChangePageSize(pageSizeLimit);
 
             countItems = await _starshipRepository.CountTotalItemsAsync();
-
             starships = await _starshipRepository.GetAllAsync(request.PageNumber, request.PageSize);
 
             if (starships!.Count <= 0)
-                return new Response("Nenhuma nave encontrada.", 404);
+                return new Response("Nenhuma nave encontrada.", ((int)HttpStatusCode.OK));
 
             if (request.PageSize > starships.Count)
                 starships.ChangePageSize(countItems);
         }
         catch (Exception ex)
         {
-            return new Response($"Erro: {ex.Message}", 500);
+            return new Response($"Erro: {ex.Message}", ((int)HttpStatusCode.InternalServerError));
         }
 
         List<StarshipSummaryDto> starshipSummaryList = starships.Items!
@@ -45,8 +46,11 @@ public class Handler : IRequestHandler<Request, Response>
         PagedList<StarshipSummaryDto> starshipPagedSummary =
             new(starships.PageNumber, starships.PageSize, countItems, starshipSummaryList);
 
-        if (starshipPagedSummary.PageNumber > Math.Ceiling((double)starshipPagedSummary.Count / starshipPagedSummary.PageSize))
-            return new Response($"Número de páginas inválido.", ((int)HttpStatusCode.BadRequest));
+        var requestPageNumberOutOfRange =
+            starshipPagedSummary.PageNumber > Math.Ceiling((double)starshipPagedSummary.Count / starshipPagedSummary.PageSize);
+
+        if (requestPageNumberOutOfRange)
+            return new Response($"Erro: Número de páginas inválido.", ((int)HttpStatusCode.BadRequest));
         #endregion
 
         #region Response

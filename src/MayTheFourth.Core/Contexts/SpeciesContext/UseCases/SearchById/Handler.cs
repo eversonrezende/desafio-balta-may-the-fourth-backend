@@ -10,23 +10,18 @@ public class Handler : IRequestHandler<Request, Response>
 {
     private readonly ISpeciesRepository _speciesRepository;
     public Handler(ISpeciesRepository speciesRepository)
-    {
-        _speciesRepository = speciesRepository;
-    }
+        => _speciesRepository = speciesRepository;
 
     public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
     {
-        #region Validation
-        //Need to implement a validation system
-        #endregion
-
         #region Search species by id
         Species? species;
+
         try
         {
             species = await _speciesRepository.GetByIdAsync(request.Id, cancellationToken);
             if (species == null)
-                return new Response("Espécie não encontrado.", ((int)HttpStatusCode.NotFound));
+                return new Response("Erro: Espécie não encontrada.", ((int)HttpStatusCode.NotFound));
         }
         catch(Exception ex)
         {

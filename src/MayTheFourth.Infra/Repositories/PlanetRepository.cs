@@ -18,8 +18,8 @@ public class PlanetRepository : BaseRepository<Planet>, IPlanetRepository
 
     public async Task SaveAsync(Planet planet, CancellationToken cancellationToken)
     {
-        await _appDbContext.Planets.AddAsync(planet);
-        await _appDbContext.SaveChangesAsync();
+        await _appDbContext.Planets.AddAsync(planet, cancellationToken);
+        await _appDbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<Planet?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -27,30 +27,18 @@ public class PlanetRepository : BaseRepository<Planet>, IPlanetRepository
             .Include(x => x.Residents)
             .Include(x => x.Films)
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 
     public async Task<Planet?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
         => await _appDbContext.Planets
             .Include(x => x.Residents)
             .Include(x => x.Films)
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Slug == slug);
+            .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken: cancellationToken);
 
     public async Task<Planet?> GetByUrlAsync(string url, CancellationToken cancellationToken)
-    => await _appDbContext.Planets
-        .FirstOrDefaultAsync(x => x.Url == url);
-
-    public async Task<bool> DeletePlanetByIdAsync(Guid id, CancellationToken cancellationToken)
-    {
-        var planet = await _appDbContext.Planets.FindAsync(id);
-        if (planet != null)
-        {
-            _appDbContext.Planets.Remove(planet);
-            await _appDbContext.SaveChangesAsync(cancellationToken);
-            return true;
-        }
-        return false;
-    }
+        => await _appDbContext.Planets
+            .FirstOrDefaultAsync(x => x.Url == url, cancellationToken: cancellationToken);
 
     public async Task<int> CountTotalItemsAsync()
         => await _appDbContext.Planets.CountAsync();

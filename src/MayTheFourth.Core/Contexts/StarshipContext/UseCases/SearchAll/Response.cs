@@ -21,4 +21,4 @@ public class Response : SharedContext.UseCases.Response
     public ResponseData? Data { get; set; }
 }
 
-public record ResponseData(PagedList<StarshipSummaryDto> starships);
+public record ResponseData(PagedList<StarshipSummaryDto> Starships);

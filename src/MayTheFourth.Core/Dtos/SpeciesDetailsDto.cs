@@ -21,43 +21,30 @@ public class SpeciesDetailsDto
         Edited = species.Edited;
         Homeworld = species.Homeworld;
         HomeworldId = species.HomeworldId;
-        People = species.People.Select(person => new PersonSummaryDto
-        {
-            Id = person.Id,
-            Name = person.Name,
-            Slug = person.Slug,
-            BirthYear = person.BirthYear,
-            Gender = person.Gender,
-            HomeworldId = person.HomeworldId
-        }).ToList();
-        Films = species.Films.Select(film => new FilmSummaryDto
-        {
-            Id = film.Id,
-            Title = film.Title,
-            Slug = film.Slug,
-            Director = film.Director,
-            ReleaseDate = film.ReleaseDate
-        }).ToList();
+        People = species.People
+            .Select(person => new PersonSummaryDto(person)).ToList();
+        Films = species.Films
+            .Select(film => new FilmSummaryDto(film)).ToList();
     }
 
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Slug { get; set; } = string.Empty;
-    public string Classification { get; set; } = string.Empty;
-    public string Designation { get; set; } = string.Empty;
-    public int AverageHeight { get; set; }
-    public int AverageLifespan { get; set; }
-    public string EyeColors { get; set; } = string.Empty;
-    public string HairColors { get; set; } = string.Empty;
-    public string SkinColors { get; set; } = string.Empty;
-    public string Language { get; set; } = string.Empty;
-    public DateTime Created { get; set; }
-    public DateTime Edited { get; set; }
+    public Guid Id { get; }
+    public string Name { get; } = string.Empty;
+    public string Slug { get; } = string.Empty;
+    public string Classification { get; } = string.Empty;
+    public string Designation { get; } = string.Empty;
+    public int AverageHeight { get; }
+    public int AverageLifespan { get; }
+    public string EyeColors { get; } = string.Empty;
+    public string HairColors { get; } = string.Empty;
+    public string SkinColors { get; } = string.Empty;
+    public string Language { get; } = string.Empty;
+    public DateTime Created { get; }
+    public DateTime Edited { get; }
 
-    public Planet? Homeworld { get; set; }
-    public Guid? HomeworldId { get; set; }
+    public Planet? Homeworld { get; }
+    public Guid? HomeworldId { get; }
 
 
-    public List<PersonSummaryDto> People { get; set; } = [];
-    public List<FilmSummaryDto> Films { get; set; } = [];
+    public List<PersonSummaryDto> People { get; } = [];
+    public List<FilmSummaryDto> Films { get; } = [];
 }

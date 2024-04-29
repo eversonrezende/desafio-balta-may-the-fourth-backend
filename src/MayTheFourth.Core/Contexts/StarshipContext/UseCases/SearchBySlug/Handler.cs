@@ -10,18 +10,13 @@ public class Handler : IRequestHandler<Request, Response>
 {
     private readonly IStarshipRepository _starshipRepository;
     public Handler(IStarshipRepository starshipRepository)
-    {
-        _starshipRepository = starshipRepository;
-    }
+        => _starshipRepository = starshipRepository;
 
     public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
     {
-        #region Validate Request
-        //Implement validation system
-        #endregion
-
         #region Get starship by slug
         Starship? starship;
+
         try
         {
             starship = await _starshipRepository.GetBySlugAsync(request.Slug, cancellationToken);
@@ -32,6 +27,7 @@ public class Handler : IRequestHandler<Request, Response>
         {
             return new Response($"Erro: {ex.Message}", ((int)HttpStatusCode.InternalServerError));
         }
+
         StarshipDetailsDto starshipDetails = new(starship);
         #endregion
 

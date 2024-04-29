@@ -17,24 +17,26 @@ public class Handler : IRequestHandler<Request, Response>
     {
         #region Get All Planets
         PagedList<Planet>? planets;
+        int pageSizeLimit = 30;
         int countItems = 0;
+
         try
         {
-            if (request.PageSize > 30)
-                request.ChangePageSize(30);
+            if (request.PageSize > pageSizeLimit)
+                request.ChangePageSize(pageSizeLimit);
 
             countItems = await _planetRepository.CountTotalItemsAsync();
             planets = await _planetRepository.GetAllAsync(request.PageNumber, request.PageSize);
 
             if (planets!.Count <= 0)
-                return new Response("Nenhum planeta encontrado.", 404);
+                return new Response("Nenhum planeta encontrado.", ((int)HttpStatusCode.OK));
 
             if (request.PageSize > planets.Count)
                 planets.ChangePageSize(countItems);
         }
         catch (Exception ex)
         {
-            return new Response($"Erro: {ex.Message}", 500);
+            return new Response($"Erro: {ex.Message}", ((int)HttpStatusCode.InternalServerError));
         }
 
         List<PlanetSummaryDto> planetSummaryList = planets.Items!
@@ -43,8 +45,11 @@ public class Handler : IRequestHandler<Request, Response>
         PagedList<PlanetSummaryDto> planetPagedSummaryList = 
             new(planets.PageNumber, planets.PageSize, countItems, planetSummaryList);
 
-        if (planetPagedSummaryList.PageNumber > Math.Ceiling((double)planetPagedSummaryList.Count / planetPagedSummaryList.PageSize))
-            return new Response($"Número de páginas inválido.", ((int)HttpStatusCode.BadRequest));
+        var requestPageNumberOutOfRange = 
+            planetPagedSummaryList.PageNumber > Math.Ceiling((double)planetPagedSummaryList.Count / planetPagedSummaryList.PageSize);
+
+        if (requestPageNumberOutOfRange)
+            return new Response($"Erro: Número de páginas inválido.", ((int)HttpStatusCode.BadRequest));
 
         #endregion
 

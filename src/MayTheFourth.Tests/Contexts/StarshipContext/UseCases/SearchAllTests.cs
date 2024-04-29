@@ -59,7 +59,7 @@ public class SearchAllTests
 
         var response = await _handler.Handle(request, new CancellationToken());
 
-        Assert.AreEqual(3, response.Data!.starships.Count, "Expected exactly three starships in the list.");
+        Assert.AreEqual(3, response.Data!.Starships.Count, "Expected exactly three starships in the list.");
         Assert.AreEqual(true, response.IsSuccess);
         Assert.AreEqual(((int)HttpStatusCode.OK), response.Status);
     }
