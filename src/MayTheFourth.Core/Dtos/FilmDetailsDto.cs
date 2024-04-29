@@ -50,15 +50,8 @@ public class FilmDetailsDto
             Gender = characters.Gender,
             HomeworldId = characters.HomeworldId
         }).ToList();
-        Planets = film.Planets.Select(planets => new PlanetSummaryDto
-        {
-            Id = planets.Id,
-            Name = planets.Name,
-            Slug = planets.Slug,
-            Gravity = planets.Gravity,
-            Population = planets.Population,
-            Climate = planets.Climate
-        }).ToList();
+        Planets = film.Planets
+            .Select(planet => new PlanetSummaryDto(planet)).ToList();
     }
 
     public Guid Id { get; set; }

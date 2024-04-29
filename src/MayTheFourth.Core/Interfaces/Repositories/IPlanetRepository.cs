@@ -7,7 +7,6 @@ public interface IPlanetRepository
 {
     Task<bool> AnyAsync(string name, string gravity);
     Task<int> CountTotalItemsAsync();
-    Task<bool> DeletePlanetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<PagedList<Planet>?> GetAllAsync(int pageNumber, int pageSize);
     Task<Planet?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<Planet?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
