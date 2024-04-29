@@ -9,7 +9,10 @@ namespace MayTheFourth.Infra.Repositories;
 public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
 {
     public VehicleRepository(AppDbContext appDbContext) : base(appDbContext) { }
-    
+
+    public async Task<bool> AnyAsync()
+        => await _appDbContext.Planets.AnyAsync();
+
     public async Task<bool> AnyAsync(string name, string model)
         => await _appDbContext.Vehicles.AnyAsync(x => x.Name == name && x.Model == model);
     
@@ -50,5 +53,15 @@ public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
     {
         var vehicles = _appDbContext.Vehicles.AsQueryable();
         return await GetPagedAsync(vehicles, pageNumber, pageSize);
+    }
+
+    public async Task<Vehicle?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    => await _appDbContext.Vehicles
+        .FirstOrDefaultAsync(x => x.Url == url);
+
+    public async Task UpdateAsync(Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        _appDbContext.Update(vehicle);
+        await _appDbContext.SaveChangesAsync();
     }
 }

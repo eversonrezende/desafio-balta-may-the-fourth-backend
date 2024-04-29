@@ -10,6 +10,9 @@ public class PersonRepository : BaseRepository<Person>, IPersonRepository
 {
     public PersonRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
+    public async Task<bool> AnyAsync()
+    => await _appDbContext.Planets.AnyAsync();
+
     public async Task<PagedList<Person>> GetAllAsync(int pageNumber, int pageSize)
     {
         var query = _appDbContext.People.AsQueryable();
@@ -45,4 +48,14 @@ public class PersonRepository : BaseRepository<Person>, IPersonRepository
         .Include(x => x.Vehicles)
         .AsNoTracking()
         .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);
+
+    public async Task<Person?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    => await _appDbContext.People
+        .FirstOrDefaultAsync(x => x.Url == url);
+
+    public async Task UpdateAsync(Person person, CancellationToken cancellationToken)
+    {
+        _appDbContext.Update(person);
+        await _appDbContext.SaveChangesAsync();
+    }
 }

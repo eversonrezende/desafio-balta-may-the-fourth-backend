@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace MayTheFourth.Infra.DTOs
+namespace MayTheFourth.DataImporter.DTOs
 {
     public class FilmDTO
     {
@@ -51,6 +51,24 @@ namespace MayTheFourth.Infra.DTOs
 
         [JsonPropertyName("planets")]
         public List<string> Planets { get; set; } = [];
+
+        public Film ToFilm()
+        {
+            var film = new Film
+            {
+                Title = Title,
+                Slug = Title.ToLower().Replace(" ", "-"),
+                EpisodeId = EpisodeId,
+                OpeningCrawl = OpeningCrawl,
+                Director = Director,
+                Producer = Producer,
+                ReleaseDate = ReleaseDate,
+                Url = Url,
+                Created = Created,
+                Edited = Edited
+            };
+            return film;
+        }
 
     }
 }

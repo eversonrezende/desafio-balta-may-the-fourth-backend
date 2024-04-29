@@ -11,6 +11,11 @@ namespace MayTheFourth.Tests.Repositories
 {
     public class FakeFilmRepository : IFilmRepository
     {
+        public Task<bool> AnyAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<int> CountItemsAsync()
         {
             throw new NotImplementedException();
@@ -40,6 +45,21 @@ namespace MayTheFourth.Tests.Repositories
         }
 
         public Task<Film?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Film?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveAsync(Film film, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Film film, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

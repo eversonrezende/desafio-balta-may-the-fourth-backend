@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace MayTheFourth.Infra.DTOs
+namespace MayTheFourth.DataImporter.DTOs
 {
     public class SpeciesDTO
     {
@@ -47,13 +47,35 @@ namespace MayTheFourth.Infra.DTOs
         public DateTime Edited { get; set; }
 
         [JsonPropertyName("homeworld")]
-        public string Homeworld{ get; set; } = string.Empty;
+        public string Homeworld { get; set; } = string.Empty;
 
         [JsonPropertyName("people")]
         public List<string> People { get; set; } = [];
-        
+
         [JsonPropertyName("films")]
         public List<string> Films { get; set; } = [];
+
+        public Species ToSpecies()
+        {
+            var species = new Species
+            {
+                Name = Name,
+                Slug = Name.ToLower().Replace(" ", "-"),
+                Classification = Classification,
+                Designation = Designation,
+                AverageHeight = int.TryParse(AverageHeight!, out int parsedAverageHeight) ? parsedAverageHeight : 0,
+                AverageLifespan = int.TryParse(AverageHeight!, out int parsedAverageLifespan) ? parsedAverageLifespan : 0,
+                EyeColors = EyeColors,
+                HairColors = HairColors,
+                SkinColors = SkinColors,
+                Language = Language,
+                Url = Url,
+                Created = Created,
+                Edited = Edited,
+            };
+            return species;
+        }
+
 
     }
 }

@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using MayTheFourth.DataImporter.Services.Contexts.FilmContext;
+using MayTheFourth.DataImporter.Services.Contexts.SpeciesContext;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MayTheFourth.Api.Extensions.Contexts.SpeciesContext
@@ -11,6 +13,10 @@ namespace MayTheFourth.Api.Extensions.Contexts.SpeciesContext
             builder.Services.AddTransient
                 <Core.Interfaces.Repositories.ISpeciesRepository,
                 Infra.Repositories.SpeciesRepository>();
+            #endregion
+
+            #region Register Species Import Service
+            builder.Services.AddTransient<SpeciesImportService>();
             #endregion
         }
 

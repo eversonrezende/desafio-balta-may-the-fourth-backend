@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MayTheFourth.Infra.Services.DataImportService
+namespace MayTheFourth.DataImporter.Services
 {
     public class SwapiImportService : IDataImportService
     {
@@ -17,7 +17,8 @@ namespace MayTheFourth.Infra.Services.DataImportService
             _appDbContext = appDbContext;
         }
 
-        public async Task ImportDataAsync()
+
+        public async Task ImportDataAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,6 @@
 ﻿using MayTheFourth.Core.Entities;
+using MayTheFourth.DataImporter.Services.Contexts.FilmContext;
+using MayTheFourth.DataImporter.Services.Contexts.StarshipContext;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
@@ -13,6 +15,10 @@ public static class StarshipExtension
         builder.Services.AddTransient<
             Core.Interfaces.Repositories.IStarshipRepository,
             Infra.Repositories.StarshipRepository>();
+        #endregion
+
+        #region Register Starship Import Service
+        builder.Services.AddTransient<StarshipImportService>();
         #endregion
     }
 

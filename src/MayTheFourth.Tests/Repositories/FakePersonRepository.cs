@@ -54,6 +54,11 @@ namespace MayTheFourth.Tests.Repositories
             return await Task.FromResult(people.FirstOrDefault(x => x.Slug == lowerCaseSlug));
         }
 
+        public Task<Person?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task SaveAsync(Person person, CancellationToken cancellationToken)
         {
             if (person is null)
@@ -62,7 +67,12 @@ namespace MayTheFourth.Tests.Repositories
             return Task.FromResult(true);
         }
 
+        public Task UpdateAsync(Person person, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
         private static Task<PagedList<T>> GetPagedAsync<T>(IQueryable<T> source, int pageNumber, int pageSize)
             => Task.FromResult(new PagedList<T>(pageNumber, pageSize, source.Count(), source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()));
+
     }
 }

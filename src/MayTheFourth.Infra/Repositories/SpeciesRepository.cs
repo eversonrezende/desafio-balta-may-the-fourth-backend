@@ -10,6 +10,15 @@ namespace MayTheFourth.Infra.Repositories
     {
         public SpeciesRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
+        public async Task<bool> AnyAsync()
+            => await _appDbContext.Planets.AnyAsync();
+
+        public async Task SaveAsync(Species species, CancellationToken cancellationToken)
+        {
+            await _appDbContext.Species.AddAsync(species);
+            await _appDbContext.SaveChangesAsync();
+        }
+
         public async Task<PagedList<Species>> GetAllAsync(int pageNumber, int pageSize)
         {
             var query = _appDbContext.Species.AsQueryable();
@@ -33,5 +42,15 @@ namespace MayTheFourth.Infra.Repositories
                 .Include(x => x.People)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);
+
+        public async Task<Species?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+        => await _appDbContext.Species
+            .FirstOrDefaultAsync(x => x.Url == url);
+
+        public async Task UpdateAsync(Species species, CancellationToken cancellationToken)
+        {
+            _appDbContext.Update(species);
+            await _appDbContext.SaveChangesAsync();
+        }
     }
 }

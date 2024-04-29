@@ -27,6 +27,7 @@ public class SearchAllTests
         var pageNumber = 1;
         var pageSize = 10;
         var handler = new Handler(personRepository);
+
         var request = new Request(pageNumber, pageSize);
 
         var response = await handler.Handle(request, CancellationToken.None);
@@ -57,7 +58,11 @@ public class SearchAllTests
         var pageNumber = 100;
         var pageSize = 10;
         var handler = new Handler(_personRepository);
+<<<<<<< HEAD
+        var request = new Request(1, 10);
+=======
         var request = new Request(pageNumber, pageSize);
+>>>>>>> origin
 
         var response = await handler.Handle(request, new CancellationToken());
 

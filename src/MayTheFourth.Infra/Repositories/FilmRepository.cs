@@ -13,6 +13,14 @@ public class FilmRepository : BaseRepository<Film>, IFilmRepository
     {
 
     }
+    public async Task<bool> AnyAsync()
+    => await _appDbContext.Planets.AnyAsync();
+
+    public async Task SaveAsync(Film film, CancellationToken cancellationToken)
+    {
+        await _appDbContext.Films.AddAsync(film);
+        await _appDbContext.SaveChangesAsync();
+    }
 
     public async Task<int> CountItemsAsync()
         => await _appDbContext.Films.CountAsync();
@@ -42,4 +50,14 @@ public class FilmRepository : BaseRepository<Film>, IFilmRepository
         .Include(x => x.Planets)
         .AsNoTracking()
         .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);
+
+    public async Task<Film?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    => await _appDbContext.Films
+        .FirstOrDefaultAsync(x => x.Url == url);
+
+    public async Task UpdateAsync(Film film, CancellationToken cancellationToken)
+    {
+        _appDbContext.Update(film);
+        await _appDbContext.SaveChangesAsync();
+    }
 }

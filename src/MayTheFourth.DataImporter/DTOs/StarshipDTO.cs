@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace MayTheFourth.Infra.DTOs
+namespace MayTheFourth.DataImporter.DTOs
 {
     public class StarshipDTO
     {
@@ -63,5 +63,30 @@ namespace MayTheFourth.Infra.DTOs
 
         [JsonPropertyName("pilots")]
         public List<string> Pilots { get; set; } = [];
+
+        public Starship ToStarship()
+        {
+            var starship = new Starship
+            {
+                Name = Name,
+                Slug = Name.ToLower().Replace(" ", "-"),
+                Model = Model,
+                StarshipClass = StarshipClass,
+                Manufacturer = Manufacturer,
+                CostInCredits = int.TryParse(CostInCredits!, out int parsedCostInCredits) ? parsedCostInCredits : 0,
+                Length = double.TryParse(Length!, out double parsedLength) ? parsedLength : 0,
+                Crew = int.TryParse(Crew!, out int parsedCrew) ? parsedCrew : 0,
+                Passengers = int.TryParse(Passengers, out int parsedPassengers) ? parsedPassengers : 0,
+                MaxAtmospheringSpeed = int.TryParse(MaxAtmospheringSpeed, out int parsedMaxAtmospheringSpeed) ? parsedMaxAtmospheringSpeed : 0,
+                HyperdriveRating = HyperdriveRating,
+                MGLT = MGLT,
+                CargoCapacity = int.TryParse(CargoCapacity, out int parsedCargoCapacity) ? parsedCargoCapacity : 0,
+                Consumables = Consumables,
+                Url = Url,
+                Created = Created,
+                Edited = Edited
+            };
+            return starship;
+        }
     }
 }

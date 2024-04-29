@@ -1,6 +1,6 @@
-﻿using MayTheFourth.Infra.Services.DataImportService;
+﻿using MayTheFourth.DataImporter.Services;
 
-namespace MayTheFourth.Api.Extensions.Contexts
+namespace MayTheFourth.Api.Extensions
 {
     public static class DataImportExtension
     {
@@ -15,7 +15,7 @@ namespace MayTheFourth.Api.Extensions.Contexts
             var dataImportService = (JsonFileImportService)scope.ServiceProvider.GetRequiredService<IDataImportService>();
 
             dataImportService.ResourceFileName = ResourceFileName;
-            await dataImportService.ImportDataAsync();
+            await dataImportService.ImportDataAsync(new CancellationToken());
         }
     }
 }

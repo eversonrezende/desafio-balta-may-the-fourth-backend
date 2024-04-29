@@ -8,8 +8,8 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace MayTheFourth.Infra.DTOs
-{    
+namespace MayTheFourth.DataImporter.DTOs
+{
     public class PersonDTO
     {
         [JsonPropertyName("name")]
@@ -59,6 +59,29 @@ namespace MayTheFourth.Infra.DTOs
 
         [JsonPropertyName("vehicles")]
         public List<string> Vehicles { get; set; } = [];
+
+        public Person ToPerson()
+        {
+
+            var person = new Person
+            {
+                Name = Name,
+                Slug = Name.ToLower().Replace(" ", "-"),
+                BirthYear = BirthYear,
+                EyeColor = EyeColor,
+                Gender = Gender,
+                HairColor = HairColor,
+                Height = int.TryParse(Height, out int parsedDtoHeight) ? parsedDtoHeight : 0,
+                Mass = Mass,
+                SkinColor = SkinColor,
+                Url = Url,
+                Created = Created,
+                Edited = Edited
+            };
+
+            return person;
+        }
+
 
     }
 }

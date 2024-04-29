@@ -10,6 +10,9 @@ public class PlanetRepository : BaseRepository<Planet>, IPlanetRepository
 {
     public PlanetRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
+    public async Task<bool> AnyAsync()
+        => await _appDbContext.Planets.AnyAsync();
+
     public async Task<bool> AnyAsync(string name, string gravity)
         => await _appDbContext.Planets.AnyAsync(x => x.Name == name && x.Gravity.Equals(gravity));
 
@@ -33,6 +36,10 @@ public class PlanetRepository : BaseRepository<Planet>, IPlanetRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken: cancellationToken);
 
+    public async Task<Planet?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+        => await _appDbContext.Planets
+            .FirstOrDefaultAsync(x => x.Url == url, cancellationToken: cancellationToken);
+
     public async Task<int> CountTotalItemsAsync()
         => await _appDbContext.Planets.CountAsync();
 
@@ -40,5 +47,11 @@ public class PlanetRepository : BaseRepository<Planet>, IPlanetRepository
     {
         var query = _appDbContext.Planets.AsQueryable();
         return await GetPagedAsync(query, pageNumber, pageSize);
+    }
+
+    public async Task UpdateAsync(Planet planet, CancellationToken cancellationToken)
+    {
+        _appDbContext.Update(planet);
+        await _appDbContext.SaveChangesAsync();
     }
 }
