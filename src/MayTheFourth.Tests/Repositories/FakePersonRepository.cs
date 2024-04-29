@@ -1,4 +1,5 @@
-﻿using MayTheFourth.Core.Entities;
+﻿using MayTheFourth.Core.Contexts.SharedContext;
+using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
 
 namespace MayTheFourth.Tests.Repositories
@@ -23,13 +24,38 @@ namespace MayTheFourth.Tests.Repositories
             return Task.FromResult(false);
         }
 
+        public Task<bool> AnyAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> CountItemsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Person>?> GetAllAsync()
         {
             await Task.Delay(1000);
             return people;
         }
 
+        public Task<PagedList<Person>> GetAllAsync(int pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Person?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Person?> GetByUrlAsync(string url, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
@@ -40,6 +66,11 @@ namespace MayTheFourth.Tests.Repositories
                 return Task.FromResult(false);
 
             return Task.FromResult(true);
+        }
+
+        public Task UpdateAsync(Person person, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

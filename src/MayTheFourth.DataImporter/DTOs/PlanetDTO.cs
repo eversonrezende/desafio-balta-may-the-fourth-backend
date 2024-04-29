@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MayTheFourth.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,30 @@ namespace MayTheFourth.DataImporter.DTOs
 
         [JsonPropertyName("films")]
         public List<string>? Films { get; set; } = [];
+
+        public Planet ToPlanet()
+        {
+            var planet = new Planet
+            {
+                Name = Name,
+                Diameter = int.TryParse(Diameter!, out int parsedDiameter) ? parsedDiameter : 0,
+                RotationPeriod = int.TryParse(RotationPeriod, out int parsedRotationPeriod) ? parsedRotationPeriod : 0,
+                OrbitalPeriod = int.TryParse(OrbitalPeriod!, out int parsedOrbitalPeriod) ? parsedOrbitalPeriod : 0,
+                Gravity = Gravity!,
+                Population = int.TryParse(Population!, out int parsedPopulation) ? parsedOrbitalPeriod : 0,
+                Climate = Climate!,
+                Terrain = Terrain!,
+                SurfaceWater = SurfaceWater!,
+                Url = Url!,
+                Created = Created,
+                Edited = Edited,
+                Slug = Name.ToLower().Replace(" ", "-"),
+                Residents = new(),
+                Films = new()
+            };
+            return planet;
+        }
+
 
     }
 }

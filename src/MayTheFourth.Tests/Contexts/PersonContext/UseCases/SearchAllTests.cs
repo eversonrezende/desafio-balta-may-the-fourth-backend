@@ -22,7 +22,7 @@ public class SearchAllTests
         personRepository.people.Clear();
 
         var handler = new Handler(personRepository);
-        var request = new Request();
+        var request = new Request(1, 10);
 
         var response = await handler.Handle(request, CancellationToken.None);
 
@@ -35,7 +35,7 @@ public class SearchAllTests
     public void Should_Succeed_When_PeopleList_Contains_Exactly_Five_People()
     {
         var handler = new Handler(_personRepository);
-        var request = new Request();
+        var request = new Request(1, 10);
 
         var people = handler.Handle(request, new CancellationToken());
 

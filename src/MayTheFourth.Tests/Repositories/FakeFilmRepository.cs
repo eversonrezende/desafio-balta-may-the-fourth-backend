@@ -1,4 +1,5 @@
-﻿using MayTheFourth.Core.Entities;
+﻿using MayTheFourth.Core.Contexts.SharedContext;
+using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,16 @@ namespace MayTheFourth.Tests.Repositories
 {
     public class FakeFilmRepository : IFilmRepository
     {
+        public Task<bool> AnyAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> CountItemsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Film>> GetAllAsync()
         {
             List<Film> films = new List<Film>();
@@ -23,7 +34,32 @@ namespace MayTheFourth.Tests.Repositories
             return films;
         }
 
+        public Task<PagedList<Film>> GetAllAsync(int pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Film?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Film?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Film?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveAsync(Film film, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Film film, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

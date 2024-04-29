@@ -15,8 +15,8 @@ public static class PersonExtension
             Infra.Repositories.PersonRepository>();
         #endregion
 
-        #region Register Person Service
-        builder.Services.AddTransient<PersonService>();
+        #region Register Person Import Service
+        builder.Services.AddTransient<PersonImportService>();
         #endregion
     }
 

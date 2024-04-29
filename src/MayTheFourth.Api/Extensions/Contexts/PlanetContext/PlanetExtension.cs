@@ -15,8 +15,8 @@ public static class PlanetExtension
             Infra.Repositories.PlanetRepository>();
         #endregion
 
-        #region Register Planet Service
-        builder.Services.AddTransient <PlanetService>();
+        #region Register Planet Import Service
+        builder.Services.AddTransient <PlanetImportService>();
         #endregion
     }
 

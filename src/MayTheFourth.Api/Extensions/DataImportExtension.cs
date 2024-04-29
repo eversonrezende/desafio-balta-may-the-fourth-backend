@@ -1,6 +1,6 @@
 ﻿using MayTheFourth.DataImporter.Services;
 
-namespace MayTheFourth.Api.Extensions.Contexts
+namespace MayTheFourth.Api.Extensions
 {
     public static class DataImportExtension
     {

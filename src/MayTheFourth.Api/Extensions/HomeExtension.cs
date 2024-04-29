@@ -1,13 +1,13 @@
 ﻿using MayTheFourth.Core.Contexts.SharedContext.UseCases;
 using System.Net;
 
-namespace MayTheFourth.Api.Extensions.Contexts
+namespace MayTheFourth.Api.Extensions
 {
     public static class HomeExtension
     {
         public static void MapHomeEndpoint(this WebApplication app)
         {
-            app.MapGet("/", () => 
+            app.MapGet("/", () =>
             {
                 return Results.Redirect("/swagger");
             });

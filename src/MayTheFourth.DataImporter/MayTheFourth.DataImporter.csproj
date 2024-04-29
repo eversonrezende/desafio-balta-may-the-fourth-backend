@@ -19,11 +19,4 @@
     <ProjectReference Include="..\MayTheFourth.Infra\MayTheFourth.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Contexts\FilmContext\" />
-    <Folder Include="Services\Contexts\VehicleContext\" />
-    <Folder Include="Services\Contexts\StarshipContext\" />
-    <Folder Include="Services\Contexts\SpeciesContext\" />
-  </ItemGroup>
-
 </Project>

@@ -75,4 +75,19 @@ public class FakeStarshipRepository : IStarshipRepository
 
     private static Task<PagedList<T>> GetPagedAsync<T>(IQueryable<T> source, int pageNumber, int pageSize)
         => Task.FromResult(new PagedList<T>(pageNumber, pageSize, source.Count(), source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()));
+
+    public Task<bool> AnyAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Starship?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(Starship starship, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }

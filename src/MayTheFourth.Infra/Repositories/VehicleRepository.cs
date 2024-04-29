@@ -54,4 +54,14 @@ public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
         var vehicles = _appDbContext.Vehicles.AsQueryable();
         return await GetPagedAsync(vehicles, pageNumber, pageSize);
     }
+
+    public async Task<Vehicle?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    => await _appDbContext.Vehicles
+        .FirstOrDefaultAsync(x => x.Url == url);
+
+    public async Task UpdateAsync(Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        _appDbContext.Update(vehicle);
+        await _appDbContext.SaveChangesAsync();
+    }
 }

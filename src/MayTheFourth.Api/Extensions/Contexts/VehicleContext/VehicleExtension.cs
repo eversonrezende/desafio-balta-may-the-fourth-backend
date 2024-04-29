@@ -1,3 +1,5 @@
+using MayTheFourth.DataImporter.Services.Contexts.FilmContext;
+using MayTheFourth.DataImporter.Services.Contexts.VehicleContext;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +13,10 @@ public static class VehicleExtension
         builder.Services.AddTransient
             <Core.Interfaces.Repositories.IVehicleRepository,
             Infra.Repositories.VehicleRepository>();
+        #endregion
+
+        #region Register Vehicle Import Service
+        builder.Services.AddTransient<VehicleImportService>();
         #endregion
     }
 

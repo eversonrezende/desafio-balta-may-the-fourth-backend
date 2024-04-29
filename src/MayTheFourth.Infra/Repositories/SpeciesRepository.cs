@@ -42,5 +42,15 @@ namespace MayTheFourth.Infra.Repositories
                 .Include(x => x.People)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);
+
+        public async Task<Species?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+        => await _appDbContext.Species
+            .FirstOrDefaultAsync(x => x.Url == url);
+
+        public async Task UpdateAsync(Species species, CancellationToken cancellationToken)
+        {
+            _appDbContext.Update(species);
+            await _appDbContext.SaveChangesAsync();
+        }
     }
 }

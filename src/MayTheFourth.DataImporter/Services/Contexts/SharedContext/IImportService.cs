@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MayTheFourth.DataImporter.Services.Contexts.SharedContext
 {
-    public interface IEntityService
+    public interface IImportService
     {
         void LoadList(string jsonList);
         Task ImportAsync(CancellationToken cancellationToken);

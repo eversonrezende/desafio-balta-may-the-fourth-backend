@@ -1,5 +1,4 @@
 using MayTheFourth.Api.Extensions;
-using MayTheFourth.Api.Extensions.Contexts;
 using MayTheFourth.Api.Extensions.Contexts.FilmContext;
 using MayTheFourth.Api.Extensions.Contexts.PersonContext;
 using MayTheFourth.Api.Extensions.Contexts.PlanetContext;

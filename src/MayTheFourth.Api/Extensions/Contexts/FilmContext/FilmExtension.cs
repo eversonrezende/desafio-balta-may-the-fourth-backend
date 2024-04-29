@@ -1,4 +1,5 @@
-﻿using MayTheFourth.DataImporter.Services.Contexts.SharedContext;
+﻿using MayTheFourth.DataImporter.Services.Contexts.FilmContext;
+using MayTheFourth.DataImporter.Services.Contexts.SharedContext;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,10 @@ namespace MayTheFourth.Api.Extensions.Contexts.FilmContext
             builder.Services.AddTransient
                 <Core.Interfaces.Repositories.IFilmRepository,
                 Infra.Repositories.FilmRepository>();
+            #endregion
+
+            #region Register Film Import Service
+            builder.Services.AddTransient<FilmImportService>();
             #endregion
         }
 

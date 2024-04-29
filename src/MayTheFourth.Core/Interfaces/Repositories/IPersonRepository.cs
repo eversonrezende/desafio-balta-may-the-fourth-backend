@@ -11,5 +11,8 @@ public interface IPersonRepository
     Task<PagedList<Person>> GetAllAsync(int pageNumber, int pageSize);
     Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<Person?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
+    Task<Person?> GetByUrlAsync(string url, CancellationToken cancellationToken);
     Task SaveAsync(Person person, CancellationToken cancellationToken);
+    Task UpdateAsync(Person person, CancellationToken cancellationToken);
+
 }

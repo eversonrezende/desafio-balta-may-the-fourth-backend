@@ -16,5 +16,9 @@ namespace MayTheFourth.Core.Interfaces.Repositories
         Task<Species?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task SaveAsync(Species species, CancellationToken cancellationToken);
         Task<Species?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
+        Task<Species?> GetByUrlAsync(string url, CancellationToken cancellationToken);
+        Task UpdateAsync(Species species, CancellationToken cancellationToken);
+
+
     }
 }

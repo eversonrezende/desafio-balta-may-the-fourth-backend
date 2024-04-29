@@ -14,4 +14,5 @@ public interface IPlanetRepository
     Task<Planet?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
     Task<Planet?> GetByUrlAsync(string url, CancellationToken cancellationToken);
     Task SaveAsync(Planet planet, CancellationToken cancellationToken);
+    Task UpdateAsync(Planet planet, CancellationToken cancellationToken);
 }

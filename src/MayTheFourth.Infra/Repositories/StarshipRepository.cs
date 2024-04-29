@@ -44,4 +44,14 @@ public class StarshipRepository : BaseRepository<Starship>, IStarshipRepository
         var query = _appDbContext.Starships.AsQueryable();
         return await GetPagedAsync(query, pageNumber, pageSize);
     }
+
+    public async Task<Starship?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    => await _appDbContext.Starships
+        .FirstOrDefaultAsync(x => x.Url == url);
+
+    public async Task UpdateAsync(Starship starship, CancellationToken cancellationToken)
+    {
+        _appDbContext.Update(starship);
+        await _appDbContext.SaveChangesAsync();
+    }
 }

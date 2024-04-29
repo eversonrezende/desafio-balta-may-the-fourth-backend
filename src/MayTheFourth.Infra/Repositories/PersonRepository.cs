@@ -48,4 +48,14 @@ public class PersonRepository : BaseRepository<Person>, IPersonRepository
         .Include(x => x.Vehicles)
         .AsNoTracking()
         .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);
+
+    public async Task<Person?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    => await _appDbContext.People
+        .FirstOrDefaultAsync(x => x.Url == url);
+
+    public async Task UpdateAsync(Person person, CancellationToken cancellationToken)
+    {
+        _appDbContext.Update(person);
+        await _appDbContext.SaveChangesAsync();
+    }
 }

@@ -1,43 +1,49 @@
-﻿using MayTheFourth.Core.Entities;
-using MayTheFourth.Core.Interfaces.Repositories;
-using MayTheFourth.DataImporter.DTOs;
+﻿using MayTheFourth.DataImporter.Services.Contexts.FilmContext;
 using MayTheFourth.DataImporter.Services.Contexts.PersonContext;
 using MayTheFourth.DataImporter.Services.Contexts.PlanetContext;
-using MayTheFourth.DataImporter.Services.Contexts.SharedContext;
-using MayTheFourth.Infra.Data;
-using MayTheFourth.Infra.DTOs;
-using MayTheFourth.Infra.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+using MayTheFourth.DataImporter.Services.Contexts.SpeciesContext;
+using MayTheFourth.DataImporter.Services.Contexts.StarshipContext;
+using MayTheFourth.DataImporter.Services.Contexts.VehicleContext;
 using System.Reflection;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace MayTheFourth.DataImporter.Services
 {
     public class JsonFileImportService : IDataImportService
     {
-        private readonly PlanetService _planetService;
-        private readonly PersonService _personService;
+        private readonly PlanetImportService _planetService;
+        private readonly PersonImportService _personService;
+        private readonly SpeciesImportService _speciesService;
+        private readonly FilmImportService _filmService;
+        private readonly StarshipImportService _starshipService;
+        private readonly VehicleImportService _vehicleService;
 
         public string ResourceFileName { get; set; } = string.Empty;
 
-        public JsonFileImportService(PlanetService planetService, PersonService personService)
+        public JsonFileImportService(
+                                     FilmImportService filmService,
+                                     PlanetImportService planetService, 
+                                     PersonImportService personService,
+                                     SpeciesImportService speciesService,
+                                     StarshipImportService starshipService,
+                                     VehicleImportService vehicleService)
         {
             _planetService = planetService;
             _personService = personService;
+            _speciesService = speciesService;
+            _filmService = filmService;
+            _vehicleService = vehicleService;
+            _starshipService = starshipService;
         }
         private async Task<bool> IsDatabaseEmpty()
         {
-            return await _planetService.IsEmpty()
-                & await _personService.IsEmpty();
+            return await _filmService.IsEmpty()
+                & await _personService.IsEmpty()
+                & await _planetService.IsEmpty()
+                & await _speciesService.IsEmpty()
+                & await _starshipService.IsEmpty()
+                & await _vehicleService.IsEmpty();
+
         }
 
         public async Task ImportDataAsync(CancellationToken cancellationToken)
@@ -46,6 +52,7 @@ namespace MayTheFourth.DataImporter.Services
 
             try
             {
+                #region LoadLists
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 using (Stream stream = assembly.GetManifestResourceStream(ResourceFileName)!)
                 {
@@ -60,42 +67,55 @@ namespace MayTheFourth.DataImporter.Services
                                 var endpoint = element.GetProperty("Endpoint").GetString();
                                 JsonElement data = element.GetProperty("Data");
                                 JsonElement results = data.GetProperty("results");
+                                string jsonList = results.GetRawText();
                                 switch (endpoint)
                                 {
                                     case "people":
-                                        _personService.LoadList(results.GetRawText());
+                                        _personService.LoadList(jsonList);
                                         break;
 
                                     case "planets":
-                                        _planetService.LoadList(results.GetRawText());
+                                        _planetService.LoadList(jsonList);
                                         break;
 
-                                    //case "films":
-                                    //    films = JsonSerializer.Deserialize<List<FilmDTO>>(results.GetRawText())!;
-                                    //    break;
+                                    case "species":
+                                        _speciesService.LoadList(jsonList);
+                                        break;
 
-                                    //case "species":
-                                    //    speciesList = JsonSerializer.Deserialize<List<SpeciesDTO>>(results.GetRawText())!;
-                                    //    break;
+                                    case "films":
+                                        _filmService.LoadList(jsonList);
+                                        break;
 
-                                    //case "starships":
-                                    //    starships = JsonSerializer.Deserialize<List<StarshipDTO>>(results.GetRawText())!;
-                                    //    break;
+                                    case "starships":
+                                        _starshipService.LoadList(jsonList);
+                                        break;
 
-                                    //case "vehicles":
-                                    //    vehicles = JsonSerializer.Deserialize<List<VehicleDTO>>(results.GetRawText())!;
-                                    //    break;
+                                    case "vehicles":
+                                        _vehicleService.LoadList(jsonList);
+                                        break;
                                 }
                             }
                         }
                     }
 
                 }
+                #endregion
 
-                // Planet tem que ser o primeiro, porque os outros têm referência pra ele
+                #region Create Records
+                // Planet tem que ser o primeiro, porque Person e Species têm referência pra ele (Homeworld)
                 await _planetService.ImportAsync(cancellationToken);
                 await _personService.ImportAsync(cancellationToken);
+                await _speciesService.ImportAsync(cancellationToken);
+                await _filmService.ImportAsync(cancellationToken);
+                await _starshipService.ImportAsync(cancellationToken);
+                await _vehicleService.ImportAsync(cancellationToken);
+                #endregion
 
+                #region Create Relationships
+                await _planetService.UpdateRelationsAsync(cancellationToken);
+                await _personService.UpdateRelationsAsync(cancellationToken);
+                await _filmService.UpdateRelationsAsync(cancellationToken);
+                #endregion
 
             }
             catch (Exception ex)

@@ -12,5 +12,8 @@ public interface IStarshipRepository
     Task<Starship?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
     Task<int> CountTotalItemsAsync();
     Task<PagedList<Starship>?> GetAllAsync(int pageNumber, int pageSize);
+    Task<Starship?> GetByUrlAsync(string url, CancellationToken cancellationToken);
+    Task UpdateAsync(Starship starship, CancellationToken cancellationToken);
+
 
 }

@@ -12,5 +12,8 @@ public interface IVehicleRepository
     Task<PagedList<Vehicle>?> GetAllAsync(int pageNumber, int pageSize);
     Task<Vehicle?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<Vehicle?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
+    Task<Vehicle?> GetByUrlAsync(string url, CancellationToken cancellationToken);
     Task SaveAsync(Vehicle vehicle, CancellationToken cancellationToken);
+    Task UpdateAsync(Vehicle vehicle, CancellationToken cancellationToken);
+
 }
