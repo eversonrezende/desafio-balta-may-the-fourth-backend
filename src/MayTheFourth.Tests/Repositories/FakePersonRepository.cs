@@ -6,14 +6,13 @@ namespace MayTheFourth.Tests.Repositories
 {
     public class FakePersonRepository : IPersonRepository
     {
-        public List<Person> people = new List<Person>()
+        public readonly List<Person> people = new List<Person>()
         {
-            new Person(){ Name = "Obi-Wan Kenobi", BirthYear = "57BBY"},
-            new Person(){ Name = "Anakin Skywalker", BirthYear = "41.9BBY"},
-            new Person(){ Name = "Chewbacca", BirthYear = "200BBY"},
-            new Person(){ Name = "Han Solo", BirthYear = "29BBY"},
-            new Person(){ Name = "Yoda", BirthYear = "896BBY"},
-
+            new Person(){ Id = new Guid("378e6610-0b13-400c-96c0-b17a3055f14b"), Name = "Obi-Wan Kenobi", BirthYear = "57BBY", Slug = "obi-wan-kenobi"},
+            new Person(){ Name = "Anakin Skywalker", BirthYear = "41.9BBY", Slug = "anakin-skywalker"},
+            new Person(){ Name = "Chewbacca", BirthYear = "200BBY", Slug = "chewbacca"},
+            new Person(){ Name = "Han Solo", BirthYear = "29BBY", Slug = "han-solo"},
+            new Person(){ Name = "Yoda", BirthYear = "896BBY", Slug = "yoda"},
         };
 
         public Task<bool> AnyAsync(string name, string birthYear)
@@ -24,14 +23,9 @@ namespace MayTheFourth.Tests.Repositories
             return Task.FromResult(false);
         }
 
-        public Task<bool> AnyAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<int> CountItemsAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(people.Count);
         }
 
         public async Task<List<Person>?> GetAllAsync()
@@ -40,19 +34,24 @@ namespace MayTheFourth.Tests.Repositories
             return people;
         }
 
-        public Task<PagedList<Person>> GetAllAsync(int pageNumber, int pageSize)
+        public async Task<PagedList<Person>> GetAllAsync(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            var query = people.AsQueryable();
+            return await GetPagedAsync(query, pageNumber, pageSize);
         }
 
         public Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(people.FirstOrDefault(x => x.Id == id));
         }
 
-        public Task<Person?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+        public async Task<Person?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(slug))
+                return null;
+
+            var lowerCaseSlug = slug.ToLowerInvariant();
+            return await Task.FromResult(people.FirstOrDefault(x => x.Slug == lowerCaseSlug));
         }
 
         public Task<Person?> GetByUrlAsync(string url, CancellationToken cancellationToken)
@@ -72,5 +71,8 @@ namespace MayTheFourth.Tests.Repositories
         {
             throw new NotImplementedException();
         }
+        private static Task<PagedList<T>> GetPagedAsync<T>(IQueryable<T> source, int pageNumber, int pageSize)
+            => Task.FromResult(new PagedList<T>(pageNumber, pageSize, source.Count(), source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()));
+
     }
 }

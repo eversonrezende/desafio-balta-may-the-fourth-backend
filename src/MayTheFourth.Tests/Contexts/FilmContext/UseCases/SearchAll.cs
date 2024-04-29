@@ -23,8 +23,11 @@ namespace MayTheFourth.Tests.Contexts.FilmContext.UseCases
         [TestCategory("Handler")]
         public void Should_Return_Exactly_Five_Films()
         {
+            var pageNumber = 1;
+            var pageSize = 10;
             var handler = new Handler(_filmRepository);
-            var request = new Request(1, 10);
+
+            var request = new Request(pageNumber, pageSize);
 
             var films = handler.Handle(request, new CancellationToken());
 
