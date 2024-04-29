@@ -38,6 +38,7 @@ namespace MayTheFourth.Api.Extensions.Contexts.SpeciesContext
             })
                 .WithTags("Specie")
                 .Produces(TypedResults.Ok().StatusCode)
+                .Produces(TypedResults.BadRequest().StatusCode)
                 .Produces(TypedResults.NotFound().StatusCode)
                 .WithSummary("Return a list of species")
                 .WithOpenApi();
@@ -58,6 +59,9 @@ namespace MayTheFourth.Api.Extensions.Contexts.SpeciesContext
                     : Results.Json(result, statusCode: result.Status);
             })
                 .WithTags("Specie")
+                .Produces(TypedResults.Ok().StatusCode)
+                .Produces(TypedResults.BadRequest().StatusCode)
+                .Produces(TypedResults.NotFound().StatusCode)
                 .WithSummary("Returns a species according to ID")
                 .WithOpenApi(opt =>
                 {
@@ -82,6 +86,9 @@ namespace MayTheFourth.Api.Extensions.Contexts.SpeciesContext
                     : Results.Json(result, statusCode: result.Status);
             })
                 .WithTags("Specie")
+                .Produces(TypedResults.Ok().StatusCode)
+                .Produces(TypedResults.BadRequest().StatusCode)
+                .Produces(TypedResults.NotFound().StatusCode)
                 .WithSummary("Returns a species according to Slug")
                 .WithOpenApi(opt =>
                 {

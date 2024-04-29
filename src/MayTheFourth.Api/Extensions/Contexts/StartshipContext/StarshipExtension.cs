@@ -40,6 +40,7 @@ public static class StarshipExtension
         })
             .WithTags("Starship")
             .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
             .Produces(TypedResults.NotFound().StatusCode)
             .WithSummary("Return a list of starships")
             .WithOpenApi();
@@ -60,6 +61,9 @@ public static class StarshipExtension
                 : Results.Json(result, statusCode: result.Status);
         })
             .WithTags("Starship")
+            .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
+            .Produces(TypedResults.NotFound().StatusCode)
             .WithSummary("Return a starship according to ID")
             .WithOpenApi( opt =>
             {
@@ -84,6 +88,9 @@ public static class StarshipExtension
                 : Results.Json(result, statusCode: result.Status);
         })
             .WithTags("Starship")
+            .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
+            .Produces(TypedResults.NotFound().StatusCode)
             .WithSummary("Return a starship according to slug")
             .WithOpenApi();
         #endregion
