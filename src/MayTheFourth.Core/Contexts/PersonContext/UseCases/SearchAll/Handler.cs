@@ -4,6 +4,7 @@ using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
 using MediatR;
 using System.Net;
+using System.Numerics;
 
 namespace MayTheFourth.Core.Contexts.PersonContext.UseCases.SearchAll;
 
@@ -30,6 +31,10 @@ public class Handler : IRequestHandler<Request, Response>
 
             countItems = await _personRepository.CountItemsAsync();
             people = await _personRepository.GetAllAsync(request.PageNumber, request.PageSize);
+
+            if (people!.Count <= 0)
+                return new Response("Nenhum personagem encontrado.", 404);
+
             if (request.PageSize > people.Count)
                 people.ChangePageSize(countItems);
         }
