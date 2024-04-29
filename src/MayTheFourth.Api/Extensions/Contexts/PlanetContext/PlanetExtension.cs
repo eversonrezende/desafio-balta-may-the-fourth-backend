@@ -33,6 +33,7 @@ public static class PlanetExtension
             .WithTags("Planet")
             .Produces(TypedResults.Ok().StatusCode)
             .Produces(TypedResults.NotFound().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
             .WithSummary("Return a list of planets")
             .WithOpenApi();
         #endregion
@@ -52,6 +53,9 @@ public static class PlanetExtension
                 : Results.Json(result, statusCode: result.Status);
         })
             .WithTags("Planet")
+            .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.NotFound().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
             .WithSummary("Return a planet according to ID")
             .WithOpenApi(opt =>
             {
@@ -76,6 +80,9 @@ public static class PlanetExtension
                 : Results.Json(result, statusCode: result.Status);
         })
             .WithTags("Planet")
+            .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.NotFound().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
             .WithSummary("Return a planet according to slug")
             .WithOpenApi();
         #endregion

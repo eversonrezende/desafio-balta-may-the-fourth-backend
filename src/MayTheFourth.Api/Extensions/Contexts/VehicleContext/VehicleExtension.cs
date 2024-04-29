@@ -32,6 +32,7 @@ public static class VehicleExtension
         })
             .WithTags("Vehicle")
             .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
             .Produces(TypedResults.NotFound().StatusCode)
             .WithSummary("Return a list of vehicles")
             .WithOpenApi();
@@ -52,6 +53,9 @@ public static class VehicleExtension
                 : Results.Json(result, statusCode: result.Status);
         })
             .WithTags("Vehicle")
+            .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
+            .Produces(TypedResults.NotFound().StatusCode)
             .WithSummary("Return a vehicle according to ID")
             .WithOpenApi(opt =>
             {
@@ -76,6 +80,9 @@ public static class VehicleExtension
                 : Results.Json(result, statusCode: result.Status);
         })
             .WithTags("Vehicle")
+            .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
+            .Produces(TypedResults.NotFound().StatusCode)
             .WithSummary("Return a vehicle according to slug")
             .WithOpenApi();
         #endregion

@@ -33,6 +33,7 @@ namespace MayTheFourth.Api.Extensions.Contexts.FilmContext
             })
                 .WithTags("Film")
                 .Produces(TypedResults.Ok().StatusCode)
+                .Produces(TypedResults.BadRequest().StatusCode)
                 .Produces(TypedResults.NotFound().StatusCode)
                 .WithSummary("Return a list of films")
                 .WithOpenApi();
@@ -53,6 +54,9 @@ namespace MayTheFourth.Api.Extensions.Contexts.FilmContext
                     : Results.Json(result, statusCode: result.Status);
             })
                 .WithTags("Film")
+                .Produces(TypedResults.Ok().StatusCode)
+                .Produces(TypedResults.BadRequest().StatusCode)
+                .Produces(TypedResults.NotFound().StatusCode)
                 .WithSummary("Return a film according to ID")
                 .WithOpenApi(opt =>
                 {
@@ -77,6 +81,9 @@ namespace MayTheFourth.Api.Extensions.Contexts.FilmContext
                     : Results.Json(result, statusCode: result.Status);
             })
                 .WithTags("Film")
+                .Produces(TypedResults.Ok().StatusCode)
+                .Produces(TypedResults.BadRequest().StatusCode)
+                .Produces(TypedResults.NotFound().StatusCode)
                 .WithSummary("Return a film according to slug")
                 .WithOpenApi();
             #endregion

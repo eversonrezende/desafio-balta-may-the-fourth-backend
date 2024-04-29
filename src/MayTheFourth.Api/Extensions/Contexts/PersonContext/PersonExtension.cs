@@ -33,6 +33,7 @@ public static class PersonExtension
             .WithTags("Person")
             .Produces(TypedResults.Ok().StatusCode)
             .Produces(TypedResults.NotFound().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
             .WithSummary("Return a list of people")
             .WithOpenApi();
         #endregion
@@ -52,6 +53,9 @@ public static class PersonExtension
                 : Results.Json(result, statusCode: result.Status);
         })
             .WithTags("Person")
+            .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.NotFound().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
             .WithSummary("Return a person according to ID")
             .WithOpenApi(opt =>
             {
@@ -76,6 +80,9 @@ public static class PersonExtension
                 : Results.Json(result, statusCode: result.Status);
         })
             .WithTags("Person")
+            .Produces(TypedResults.Ok().StatusCode)
+            .Produces(TypedResults.NotFound().StatusCode)
+            .Produces(TypedResults.BadRequest().StatusCode)
             .WithSummary("Return a person according to slug")
             .WithOpenApi();
         #endregion
