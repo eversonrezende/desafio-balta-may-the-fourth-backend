@@ -1,11 +1,6 @@
 ﻿using MayTheFourth.Core.Contexts.FilmContext.UseCases.SearchAll;
 using MayTheFourth.Core.Interfaces.Repositories;
 using MayTheFourth.Tests.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MayTheFourth.Tests.Contexts.FilmContext.UseCases
 {
@@ -21,16 +16,16 @@ namespace MayTheFourth.Tests.Contexts.FilmContext.UseCases
 
         [TestMethod]
         [TestCategory("Handler")]
-        public void Should_Return_Exactly_Five_Films()
+        public async Task Should_Return_Exactly_Five_Films()
         {
             var pageNumber = 1;
             var pageSize = 10;
             var handler = new Handler(_filmRepository);
             var request = new Request(pageNumber, pageSize);
 
-            var films = handler.Handle(request, new CancellationToken());
+            var films = await handler.Handle(request, new CancellationToken());
 
-            Assert.AreEqual(5, films.Result.Data?.films.Count, "Expected exactly five films in the list.");
+            Assert.AreEqual(5, films.Data!.PagedSummaryFilms.Count, "Expected exactly five films in the list.");
         }
     }
 }

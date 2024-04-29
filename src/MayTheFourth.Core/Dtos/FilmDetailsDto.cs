@@ -16,40 +16,14 @@ public class FilmDetailsDto
         ReleaseDate = film.ReleaseDate;
         Created = film.Created;
         Edited = film.Edited;
-        SpeciesList = film.SpeciesList.Select(species => new SpeciesSummaryDto
-        {
-            Id = species.Id,
-            Name = species.Name,
-            Slug = species.Slug,
-            Language = species.Language,
-            Designation = species.Designation,
-            Classification = species.Classification,
-        }).ToList();
-        Starships = film.Starships.Select(starship => new StarshipSummaryDto
-        {
-            Id = starship.Id,
-            Name = starship.Name,
-            Slug = starship.Slug,
-            Model = starship.Model,
-            Manufacturer = starship.Manufacturer
-        }).ToList();
-        Vehicles = film.Vehicles.Select(vehicle => new VehicleSummaryDto
-        {
-            Id = vehicle.Id,
-            Name = vehicle.Name,
-            Slug = vehicle.Slug,
-            Model = vehicle.Model,
-            Manufacturer = vehicle.Manufacturer
-        }).ToList();
-        Characters = film.Characters.Select(characters => new PersonSummaryDto
-        {
-            Id = characters.Id,
-            Name = characters.Name,
-            Slug = characters.Slug,
-            BirthYear = characters.BirthYear,
-            Gender = characters.Gender,
-            HomeworldId = characters.HomeworldId
-        }).ToList();
+        SpeciesList = film.SpeciesList
+            .Select(species => new SpeciesSummaryDto(species)).ToList();
+        Starships = film.Starships
+            .Select(starship => new StarshipSummaryDto(starship)).ToList();
+        Vehicles = film.Vehicles
+            .Select(vehicle => new VehicleSummaryDto(vehicle)).ToList();
+        Characters = film.Characters
+            .Select(characters => new PersonSummaryDto(characters)).ToList();
         Planets = film.Planets
             .Select(planet => new PlanetSummaryDto(planet)).ToList();
     }

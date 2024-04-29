@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.2.0" />
+    <Compile Remove="Contexts\SpeciesContext\UseCases\Create\**" />
+    <EmbeddedResource Remove="Contexts\SpeciesContext\UseCases\Create\**" />
+    <None Remove="Contexts\SpeciesContext\UseCases\Create\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contexts\SpeciesContext\UseCases\Create\" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 
 </Project>

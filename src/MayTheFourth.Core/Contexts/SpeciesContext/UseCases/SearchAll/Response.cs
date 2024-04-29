@@ -1,6 +1,5 @@
 ﻿using MayTheFourth.Core.Contexts.SharedContext;
 using MayTheFourth.Core.Dtos;
-using MayTheFourth.Core.Entities;
 
 namespace MayTheFourth.Core.Contexts.SpeciesContext.UseCases.SearchAll;
 
@@ -22,4 +21,4 @@ public class Response : SharedContext.UseCases.Response
 
 }
 
-public record ResponseData(PagedList<SpeciesSummaryDto> species);
+public record ResponseData(PagedList<SpeciesSummaryDto> Species);

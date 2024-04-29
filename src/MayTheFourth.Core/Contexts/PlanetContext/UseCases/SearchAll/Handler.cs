@@ -29,7 +29,7 @@ public class Handler : IRequestHandler<Request, Response>
             planets = await _planetRepository.GetAllAsync(request.PageNumber, request.PageSize);
 
             if (planets!.Count <= 0)
-                return new Response("Nenhum planeta encontrado.", ((int)HttpStatusCode.NotFound));
+                return new Response("Nenhum planeta encontrado.", ((int)HttpStatusCode.OK));
 
             if (request.PageSize > planets.Count)
                 planets.ChangePageSize(countItems);
@@ -49,7 +49,7 @@ public class Handler : IRequestHandler<Request, Response>
             planetPagedSummaryList.PageNumber > Math.Ceiling((double)planetPagedSummaryList.Count / planetPagedSummaryList.PageSize);
 
         if (requestPageNumberOutOfRange)
-            return new Response($"Número de páginas inválido.", ((int)HttpStatusCode.BadRequest));
+            return new Response($"Erro: Número de páginas inválido.", ((int)HttpStatusCode.BadRequest));
 
         #endregion
 

@@ -19,23 +19,10 @@ public class PlanetDetailsDto
         SurfaceWater = planet.SurfaceWater;
         Created = planet.Created;
         Edited = planet.Edited;
-        Residents = planet.Residents.Select(resident =>  new PersonSummaryDto
-        {
-            Id = resident.Id,
-            Name = resident.Name,
-            Slug = resident.Slug,
-            BirthYear = resident.BirthYear,
-            Gender = resident.Gender,
-            HomeworldId = resident.HomeworldId
-        }).ToList();
-        Films = planet.Films.Select(film => new FilmSummaryDto
-        {
-            Id = film.Id,
-            Title = film.Title,
-            Slug = film.Slug,
-            Director = film.Director,
-            ReleaseDate = film.ReleaseDate
-        }).ToList();
+        Residents = planet.Residents
+            .Select(resident =>  new PersonSummaryDto(resident)).ToList();
+        Films = planet.Films
+            .Select(film => new FilmSummaryDto(film)).ToList();
     }
 
     public Guid Id { get; }

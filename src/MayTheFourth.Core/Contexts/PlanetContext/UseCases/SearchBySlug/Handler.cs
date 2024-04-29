@@ -10,9 +10,7 @@ public class Handler : IRequestHandler<Request, Response>
 {
     private readonly IPlanetRepository _planetRepository;
     public Handler(IPlanetRepository planetRepository)
-    {
-        _planetRepository = planetRepository;
-    }
+        => _planetRepository = planetRepository;
 
     public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
     {
@@ -22,7 +20,7 @@ public class Handler : IRequestHandler<Request, Response>
         {
             planet = await _planetRepository.GetBySlugAsync(request.Slug, cancellationToken);
             if (planet == null)
-                return new Response("Planeta não encontrado.", ((int)HttpStatusCode.NotFound));
+                return new Response("Erro: Planeta não encontrado.", ((int)HttpStatusCode.NotFound));
         }
         catch (Exception ex)
         {

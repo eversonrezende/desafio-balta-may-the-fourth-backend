@@ -4,7 +4,6 @@ using MayTheFourth.Core.Entities;
 using MayTheFourth.Core.Interfaces.Repositories;
 using MediatR;
 using System.Net;
-using System.Numerics;
 
 namespace MayTheFourth.Core.Contexts.PersonContext.UseCases.SearchAll;
 
@@ -13,27 +12,24 @@ public class Handler : IRequestHandler<Request, Response>
     private readonly IPersonRepository _personRepository;
 
     public Handler(IPersonRepository personRepository)
-    {
-        _personRepository = personRepository;
-    }
+        => _personRepository = personRepository;
 
     public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
     {
         #region GetAllPeople
         PagedList<Person>? people;
-
- 
         int countItems = 0;
+        int pageSizeLimit = 30;
         try
         {
-            if (request.PageSize > 30)
-                request.ChangePageSize(30);
+            if (request.PageSize > pageSizeLimit)
+                request.ChangePageSize(pageSizeLimit);
 
             countItems = await _personRepository.CountItemsAsync();
             people = await _personRepository.GetAllAsync(request.PageNumber, request.PageSize);
 
             if (people!.Count <= 0)
-                return new Response("Nenhum personagem encontrado.", 404);
+                return new Response("Nenhum personagem encontrado.", ((int)HttpStatusCode.OK));
 
             if (request.PageSize > people.Count)
                 people.ChangePageSize(countItems);
@@ -46,12 +42,13 @@ public class Handler : IRequestHandler<Request, Response>
         List<PersonSummaryDto> peopleSummaryList = people.Items!.Select(person => new PersonSummaryDto(person)).ToList();
 
         PagedList<PersonSummaryDto> peoplePagedSummaryList =
-            new PagedList<PersonSummaryDto>(people.PageNumber, people.PageSize, countItems, peopleSummaryList);
+            new(people.PageNumber, people.PageSize, countItems, peopleSummaryList);
 
-        if (peoplePagedSummaryList.PageNumber > Math.Ceiling((double)peoplePagedSummaryList.Count / peoplePagedSummaryList.PageSize))
-        {
+        var requestPageNumberOutOfRange =
+            peoplePagedSummaryList.PageNumber > Math.Ceiling((double)peoplePagedSummaryList.Count / peoplePagedSummaryList.PageSize);
+
+        if (requestPageNumberOutOfRange)
             return new Response($"Número de página inválido.", (int)HttpStatusCode.BadRequest);
-        }
         #endregion
 
         #region Response
