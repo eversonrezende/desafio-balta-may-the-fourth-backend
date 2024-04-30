@@ -26,7 +26,7 @@ public class SearchById
 
         var response = await _handler.Handle(request, CancellationToken.None);
 
-        Assert.AreEqual(((int)HttpStatusCode.OK), response.Status);
+        Assert.AreEqual(((int)HttpStatusCode.NotFound), response.Status);
         Assert.AreEqual(false, response.IsSuccess);
     }
 
