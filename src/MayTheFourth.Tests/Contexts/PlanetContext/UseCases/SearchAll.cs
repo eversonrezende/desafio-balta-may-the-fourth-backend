@@ -19,7 +19,7 @@ public class SearchAll
 
     [TestMethod]
     [TestCategory("Handler")]
-    public async Task Should_Return_Error_404_When_Repository_Returns_Empty_List()
+    public async Task Should_Return_200_When_Repository_Returns_Empty_List()
     {
         var planetRepository = new FakePlanetRepository();
         planetRepository._planets.Clear();
@@ -31,8 +31,8 @@ public class SearchAll
 
         var response = await handler.Handle(request, CancellationToken.None);
 
-        Assert.AreEqual(((int)HttpStatusCode.NotFound), response.Status);
-        Assert.AreEqual(false, response.IsSuccess);
+        Assert.AreEqual(((int)HttpStatusCode.OK), response.Status);
+        Assert.AreEqual(true, response.IsSuccess);
     }
 
     [TestMethod]
