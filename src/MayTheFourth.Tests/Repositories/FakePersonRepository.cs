@@ -74,5 +74,9 @@ namespace MayTheFourth.Tests.Repositories
         private static Task<PagedList<T>> GetPagedAsync<T>(IQueryable<T> source, int pageNumber, int pageSize)
             => Task.FromResult(new PagedList<T>(pageNumber, pageSize, source.Count(), source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()));
 
+        public Task<bool> AnyAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

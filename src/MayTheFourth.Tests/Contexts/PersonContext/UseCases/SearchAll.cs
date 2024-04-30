@@ -6,12 +6,12 @@ using System.Net;
 namespace MayTheFourth.Tests.Contexts.PersonContext.UseCases;
 
 [TestClass]
-public class SearchAllTests
+public class SearchAll
 {
     private readonly IPersonRepository _personRepository;
     private readonly Handler _handler;
 
-    public SearchAllTests()
+    public SearchAll()
     {
         _personRepository = new FakePersonRepository();
         _handler = new(_personRepository);
@@ -19,7 +19,7 @@ public class SearchAllTests
 
     [TestMethod]
     [TestCategory("Handler")]
-    public async Task Should_Return_Error_404_When_Repository_Returns_Empty_List()
+    public async Task Should_Return_200_When_Repository_Returns_Empty_List()
     {
         var personRepository = new FakePersonRepository();
         personRepository.people.Clear();
@@ -32,8 +32,8 @@ public class SearchAllTests
 
         var response = await handler.Handle(request, CancellationToken.None);
 
-        Assert.AreEqual(((int)HttpStatusCode.NotFound), response.Status);
-        Assert.AreEqual(false, response.IsSuccess);
+        Assert.AreEqual(((int)HttpStatusCode.OK), response.Status);
+        Assert.AreEqual(true, response.IsSuccess);
     }
 
     [TestMethod]
@@ -58,11 +58,8 @@ public class SearchAllTests
         var pageNumber = 100;
         var pageSize = 10;
         var handler = new Handler(_personRepository);
-<<<<<<< HEAD
-        var request = new Request(1, 10);
-=======
+
         var request = new Request(pageNumber, pageSize);
->>>>>>> origin
 
         var response = await handler.Handle(request, new CancellationToken());
 

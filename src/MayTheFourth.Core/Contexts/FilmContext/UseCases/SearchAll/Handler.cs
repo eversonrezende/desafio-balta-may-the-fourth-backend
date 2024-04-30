@@ -21,10 +21,9 @@ public class Handler : IRequestHandler<Request, Response>
         PagedList<Film>? films;
         int countItems = 0;
         int pageSizeLimit = 30;
-
         try
         {
-            if (request.PageSize > pageSizeLimit) 
+            if (request.PageSize > pageSizeLimit)
                 request.ChangePageSize(pageSizeLimit);
 
             countItems = await _filmRepository.CountItemsAsync();
@@ -38,21 +37,19 @@ public class Handler : IRequestHandler<Request, Response>
         }
         catch (Exception ex)
         {
-            return new Response($"Erro: {ex.Message}", ((int)HttpStatusCode.InternalServerError));
+            return new Response($"Erro: {ex.Message}", (int)HttpStatusCode.InternalServerError);
         }
 
         List<FilmSummaryDto> filmSummaryList = films.Items!.Select(film => new FilmSummaryDto(film)).ToList();
-        
-        PagedList<FilmSummaryDto> filmPagedSummaryList = 
-            new PagedList<FilmSummaryDto>(films.PageNumber, films.PageSize, countItems, filmSummaryList);
 
+        PagedList<FilmSummaryDto> filmPagedSummaryList =
+            new(films.PageNumber, films.PageSize, countItems, filmSummaryList);
 
         var requestPageNumberOutOfRange =
             filmPagedSummaryList.PageNumber > Math.Ceiling((double)filmPagedSummaryList.Count / filmPagedSummaryList.PageSize);
 
         if (requestPageNumberOutOfRange)
-            new Response($"Número de página inválido.", (int)HttpStatusCode.BadRequest);
-
+            return new Response($"Número de página inválido.", (int)HttpStatusCode.BadRequest);
         #endregion
 
         #region Response
