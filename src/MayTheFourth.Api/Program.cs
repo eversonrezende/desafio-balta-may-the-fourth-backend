@@ -71,9 +71,7 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
-var resourceFileName = builder.Configuration["ImportSettings:ResourceFileName"];
-
-await app.ImportDataAsync(resourceFileName!);
+await app.ImportDataAsync(builder);
 
 app.UseCors("RebelRenegades");
 app.MapPlanetEndpoints();

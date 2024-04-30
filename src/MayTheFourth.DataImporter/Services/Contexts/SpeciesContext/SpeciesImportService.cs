@@ -1,4 +1,5 @@
-﻿using MayTheFourth.Core.Interfaces.Repositories;
+﻿using MayTheFourth.Core.Entities;
+using MayTheFourth.Core.Interfaces.Repositories;
 using MayTheFourth.DataImporter.DTOs;
 using MayTheFourth.DataImporter.Services.Contexts.SharedContext;
 using MayTheFourth.Infra.Data;
@@ -17,6 +18,7 @@ namespace MayTheFourth.DataImporter.Services.Contexts.SpeciesContext
             _speciesRepository = speciesRepository;
             _planetRepository = planetRepository;
         }
+        public void Add(SpeciesDTO species) => _species.Add(species);
 
         public void LoadList(string jsonList)
             => _species = JsonSerializer.Deserialize<List<SpeciesDTO>>(jsonList)!;
