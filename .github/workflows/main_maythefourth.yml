@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      - name: Build with dotnet 
+      - name: Build with dotnet
         run: dotnet build --configuration Release src/MayTheFourth.Api
 
       - name: dotnet publish
@@ -38,20 +38,29 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: .net-app
       
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_4AA9465859BA4AA1A90BACDD374743CE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D844A2DBB4CE4D5E9253F9D3B5B67F78 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C9399832907C403CA1EFF60B4F10DB3B }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'maythefourth'
-          slot-name: 'production'
+          slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_df72b5597f474ef187ff3596365f023f }}
+          
