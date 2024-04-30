@@ -1,4 +1,5 @@
-﻿using MayTheFourth.Core.Interfaces.Repositories;
+﻿using MayTheFourth.Core.Entities;
+using MayTheFourth.Core.Interfaces.Repositories;
 using MayTheFourth.DataImporter.DTOs;
 using MayTheFourth.DataImporter.Services.Contexts.SharedContext;
 using System.Text.Json;
@@ -13,6 +14,8 @@ namespace MayTheFourth.DataImporter.Services.Contexts.VehicleContext
         {
             _vehicleRepository = vehicleRepository;
         }
+
+        public void Add(VehicleDTO vehicle) => _vehicles.Add(vehicle);
 
         public void LoadList(string jsonList)
             => _vehicles = JsonSerializer.Deserialize<List<VehicleDTO>>(jsonList)!;

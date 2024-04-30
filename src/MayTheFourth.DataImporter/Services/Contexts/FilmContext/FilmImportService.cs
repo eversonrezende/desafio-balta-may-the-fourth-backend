@@ -24,6 +24,8 @@ namespace MayTheFourth.DataImporter.Services.Contexts.FilmContext
             _vehicleRepository = vehicleRepository;
         }
 
+        public void Add(FilmDTO film) => _films.Add(film);
+
         public void LoadList(string jsonList)
             => _films = JsonSerializer.Deserialize<List<FilmDTO>>(jsonList)!;
 

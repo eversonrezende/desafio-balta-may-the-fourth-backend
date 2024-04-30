@@ -18,6 +18,8 @@ namespace MayTheFourth.DataImporter.Services.Contexts.PlanetContext
             _filmRepository = filmRepository;
         }
 
+        public void Add(PlanetDTO planet) => _planets.Add(planet);
+
         public void LoadList(string jsonList)
             => _planets = JsonSerializer.Deserialize<List<PlanetDTO>>(jsonList)!;
 

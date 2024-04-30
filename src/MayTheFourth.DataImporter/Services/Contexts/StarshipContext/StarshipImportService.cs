@@ -1,4 +1,5 @@
-﻿using MayTheFourth.Core.Interfaces.Repositories;
+﻿using MayTheFourth.Core.Entities;
+using MayTheFourth.Core.Interfaces.Repositories;
 using MayTheFourth.DataImporter.DTOs;
 using MayTheFourth.DataImporter.Services.Contexts.SharedContext;
 using System.Text.Json;
@@ -13,6 +14,8 @@ namespace MayTheFourth.DataImporter.Services.Contexts.StarshipContext
         {
             _starshipRepository = starshipRepository;
         }
+
+        public void Add(StarshipDTO starship) => _starships.Add(starship);
 
         public void LoadList(string jsonList)
             => _starships = JsonSerializer.Deserialize<List<StarshipDTO>>(jsonList)!;
