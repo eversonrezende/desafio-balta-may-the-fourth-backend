@@ -28,12 +28,6 @@ namespace MayTheFourth.Tests.Repositories
             return Task.FromResult(people.Count);
         }
 
-        public async Task<List<Person>?> GetAllAsync()
-        {
-            await Task.Delay(1000);
-            return people;
-        }
-
         public async Task<PagedList<Person>> GetAllAsync(int pageNumber, int pageSize)
         {
             var query = people.AsQueryable();
